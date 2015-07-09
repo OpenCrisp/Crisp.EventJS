@@ -6,3 +6,6 @@ Object events for NodeJS and Browser Clients
 
 Optional
 - async ( async: true )
+
+and many more functions
+the future test and docs comes in the next days 
