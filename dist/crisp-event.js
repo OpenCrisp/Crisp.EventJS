@@ -63,10 +63,6 @@
 					len += this.list[i].length;
 				}
 
-				// this.list.forEach(function( item ) {
-				// 	len += item.length;
-				// });
-				
 			}
 
 			return len;
@@ -143,7 +139,6 @@
 			var e = this;
 
 			if ( e.self === opt.exporter ) {
-				// console.log("talk: is self exporter!");
 				return;
 			}
 
@@ -228,7 +223,6 @@
 			var list = this.listener;
 
 			for ( var i=0, m=list.length; i<m; i+=1 ) {
-			// for ( var i=list.length -1, m=0; i>=m; i-=1 ) {
 				list[i].talk( opt );
 			}
 
@@ -252,7 +246,7 @@
 	$$.defineEvent = function( obj ) {
 		Object.defineProperties( obj, {
 
-			__event__: { writabel: true },
+			__event__: { writabel: true, value: new Event() },
 			
 			eventListener: {
 				value: function ( opt ) {
@@ -260,12 +254,14 @@
 					return this.__event__.add( opt );
 				}
 			},
+
 			eventTrigger: {
 				value: function ( opt ) {
 					this.__event__.trigger( opt );
 					return this;
 				}
 			},
+
 			eventPicker: {
 				value: function ( opt ) {
 					var action, picker, treat, self;
@@ -283,15 +279,16 @@
 					return picker[ treat ] = new EventPicker( action, treat, self, opt.path, picker );
 				}
 			},
+
 			eventRemove: {
 				value: function ( opt ) {
 					return opt;
 				}
 			}
+
 		});
 
 		return obj;
 	};
-
 
 })(Crisp);

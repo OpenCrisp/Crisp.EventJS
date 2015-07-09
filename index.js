@@ -1,1 +1,1 @@
-require('./dist/event');
+require('./dist/crisp-event');
