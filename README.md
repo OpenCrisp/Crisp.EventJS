@@ -19,7 +19,7 @@ Index Table
 -----------------
   * [Getting Started](#getting-started)
     * [NodeJS](#nodejs)
-    * [Browsers](#browser)
+    * [Browsers](#browsers)
   * [Usage](#usage)
     * [Quick example](#quick-example)
 
