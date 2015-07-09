@@ -1,6 +1,5 @@
 # Crsip.EventJS
 ============
-
 Object events for NodeJS and Browser Clients
 
 [![Build Status](https://travis-ci.org/OpenCrisp/Crisp.EventJS.svg)](https://travis-ci.org/OpenCrisp/Crisp.EventJS)
@@ -33,7 +32,7 @@ Use the Node Package Manager (npm) for install crisp-event
 
 ###Browsers###
 ```html
-<script type="text/javascript" src="dist/jspath.min.js"></script>
+<script type="text/javascript" src="dist/crisp-event.min.js"></script>
 ```
 
 Usage
@@ -47,7 +46,7 @@ Crisp.defineEvent( object );
 ```javascript
 var myObject = { a: 'A' };
 
-$$.defineEvent( myObject );
+Crisp.defineEvent( myObject );
 
 myObject.eventListener({
 	action: 'change',

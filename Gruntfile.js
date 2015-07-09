@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
+					'src/crisp-base.js',
 					'src/<%= pkg.name %>.js'
 				],
 				dest: 'dist/<%= pkg.name %>.js'
