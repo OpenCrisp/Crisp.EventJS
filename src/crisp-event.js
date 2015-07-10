@@ -240,11 +240,17 @@
 		}
 	};
 
-	$$.defineEvent = function( obj ) {
+
+	$$.defineEvent = function( obj, option ) {
+
+		option = option || {};
+		option.event = option.event || '__event__';
+		option.parent = option.parent || '__parent__';
+
+		Object.defineProperty( obj, option.event, { writabel: true, value: new Event() });
+
 		Object.defineProperties( obj, {
 
-			__event__: { writabel: true, value: new Event() },
-			
 			eventListener: {
 				value: function ( opt ) {
 					opt.self = opt.self || this;
@@ -254,7 +260,14 @@
 
 			eventTrigger: {
 				value: function ( opt ) {
-					this.__event__.trigger( opt );
+					var parent = this[ option.parent ];
+
+					this[ option.event ].trigger( opt );
+
+					if ( opt.repeat && parent && $$.isType( parent.eventTrigger, 'Function' ) ) {
+						parent.eventTrigger( opt );
+					}
+
 					return this;
 				}
 			},

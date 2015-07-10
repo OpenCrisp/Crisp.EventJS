@@ -1,48 +1,47 @@
-# Crsip.EventJS
-============
+# Crisp.EventJS
 Object events for NodeJS and Browser Clients
 
 [![Build Status](https://travis-ci.org/OpenCrisp/Crisp.EventJS.svg)](https://travis-ci.org/OpenCrisp/Crisp.EventJS)
 
 What is CRISP? Configuration Result In Simplified Programming
 
-- sync
-- multi trade
+  * sync / async
+  * action filter
+  * note picker
 
-Optional:
-- async ( async: true )
+## Index Table
 
-and many more functions
-the future test and docs comes in the next days 
-
-Index Table
------------------
   * [Getting Started](#getting-started)
     * [NodeJS](#nodejs)
     * [Browsers](#browsers)
   * [Usage](#usage)
     * [Quick example](#quick-example)
 
-Getting Started
----------------
-###NodeJS###
+## Getting Started
+
+### NodeJS
 Use the Node Package Manager (npm) for install crisp-event
 
     npm install crisp-event
 
-###Browsers###
+### Browsers
 ```html
 <script type="text/javascript" src="dist/crisp-event.min.js"></script>
 ```
 
-Usage
------
+## Usage
 ```javascript
+// init
 Crisp.defineEvent( object );
+
+// functions
+object.eventListener( option );
+object.eventTrigger( option );
+object.eventPicker( option );
+object.eventRemove( option );
 ```
 
-
-###Quick example###
+### Quick example
 ```javascript
 var myObject = { a: 'A' };
 
@@ -60,3 +59,5 @@ myObject.eventTrigger({
 	data: 'Hellow Event!'
 });
 ```
+
+[More Examples on GitHub.com](https://github.com/OpenCrisp/Crisp.EventJS/tree/master/test)

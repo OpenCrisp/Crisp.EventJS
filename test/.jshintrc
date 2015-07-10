@@ -29,6 +29,7 @@
     "notStrictEqual",
     "throws",
     "Crisp",
-    "console"
+    "console",
+    "exports"
   ]
 }
