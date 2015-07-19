@@ -9,12 +9,13 @@
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="../libs/qunit/qunit-1.18.0.js"></script>
-  <script src="../src/crisp-base.js"></script>
-  <script src="../src/crisp-event.js"></script>
+
+  <script src="../node_modules/crisp-base/dist/crisp-base.js"></script>
+  <script src="../src/EventJS.js"></script>
   <script>
   var exports = {};
   </script>
-  <script src="../test/crisp-event_example_test.js"></script>
+  <script src="../test/EventJS_test.js"></script>
   <script>
   for (var item in exports) {
     QUnit.test( item, exports[item] );

@@ -3,10 +3,11 @@
 	"title": "OpenCrisp EventJS",
 	"description": "Object events for NodeJS and Browser Clients",
 	"version": "0.1.4",
-	"homepage": "https://github.com/OpenCrisp/Crisp.EventJS",
+	"homepage": "http://opencrisp.wca.at",
 	"author": {
 		"name": "Fabian Schmid",
-		"email": "fabian.schmid@wca.at"
+		"email": "fabian.schmid@wca.at",
+		"url": "http://fabian.wca.at"
 	},
 	"repository": {
 		"type": "git",
@@ -22,9 +23,11 @@
 		"node": ">= 0.10.15"
 	},
 	"scripts": {
-		"test": "grunt qunit"
+		"test": "grunt test"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"crisp-base": "latest"
+	},
 	"devDependencies": {
 		"grunt-contrib-jshint": "~0.10.0",
 		"grunt-contrib-qunit": "~0.5.2",
@@ -33,7 +36,8 @@
 		"grunt-contrib-watch": "~0.6.1",
 		"grunt-contrib-clean": "~0.5.0",
 		"grunt-contrib-nodeunit": "~0.4.1",
+		"grunt-jsdoc": "~0.6.7",
 		"grunt": "~0.4.5"
 	},
-	"keywords": ["OpenCrisp", "EventJS", "async", "javascript", "browser", "nodejs"]
+	"keywords": ["OpenCrisp", "async", "eventPicker", "defineEvent"]
 }

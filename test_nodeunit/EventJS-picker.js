@@ -1,5 +1,6 @@
 
-require("../src/crisp-base");
-require("../src/crisp-event");
+// require("crisp-base");
+require("../../Crisp.BaseJS/dist/crisp-base");
+require("../src/EventJS");
 
-module.exports = require("../test/crisp-event_picker_test");
+module.exports = require("../test/EventJS-picker_test");

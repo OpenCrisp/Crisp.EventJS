@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 		// Task configuration.
 		clean: {
-			files: ['dist']
+			files: ['dist','doc']
 		},
 		concat: {
 			options: {
@@ -22,8 +22,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-					'src/crisp-base.js',
-					'src/<%= pkg.name %>.js'
+					'src/EventJS.js',
 				],
 				dest: 'dist/<%= pkg.name %>.js'
 			},
@@ -39,9 +38,6 @@ module.exports = function(grunt) {
 				src: '<%= concat.dist.dest %>',
 				dest: 'dist/<%= pkg.name %>.min.js'
 			},
-		},
-		qunit: {
-			files: ['test_qunit/**/*.html']
 		},
 		jshint: {
 			gruntfile: {
@@ -77,8 +73,22 @@ module.exports = function(grunt) {
 				tasks: ['jshint:test', 'qunit']
 			},
 		},
+		qunit: {
+			files: ['test_qunit/**/*.html']
+		},
 		nodeunit: {
-			all: ['test_nodeunit/*_test.js']
+			all: ['test_nodeunit/*.js']
+		},
+
+		jsdoc : {
+			dist : {
+                src: [ 'src/**/*.js', 'README.md' ],
+				options: {
+					destination: 'doc',
+					// template : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+					// configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json"
+				}
+			}
 		}
 	});
 
@@ -91,7 +101,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
+	grunt.loadNpmTasks('grunt-jsdoc');
+
 	// Default task.
-	grunt.registerTask('default', ['jshint', 'qunit', 'nodeunit', 'clean', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'qunit', 'nodeunit', 'clean', 'concat', 'uglify', 'jsdoc']);
+	grunt.registerTask('test', ['jshint', 'qunit', 'nodeunit']);
 
 };

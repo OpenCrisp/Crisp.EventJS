@@ -2,6 +2,8 @@
 Object events for NodeJS and Browser Clients
 
 [![Build Status](https://travis-ci.org/OpenCrisp/Crisp.EventJS.svg)](https://travis-ci.org/OpenCrisp/Crisp.EventJS)
+[![NPM Downloads](https://img.shields.io/npm/dm/crisp-event.svg)](https://www.npmjs.com/package/crisp-event)
+[![NPM Version](https://img.shields.io/npm/v/crisp-event.svg)](https://www.npmjs.com/package/crisp-event)
 
 What is CRISP? Configuration Result In Simplified Programming
 
