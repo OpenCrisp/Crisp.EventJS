@@ -144,7 +144,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line383">line 383</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -263,7 +263,7 @@ Crisp.defineEvent( myObject, { event: '__myevent__' });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line395">line 395</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line548">line 548</a>
     </li></ul></dd>
     
 
@@ -303,7 +303,7 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
 
     
 
-    <h4 class="name" id=".eventListener"><span class="type-signature">(static) </span>eventListener<span class="signature">(opt)</span><span class="type-signature"> &rarr; {util.event.EventListener}</span></h4>
+    <h4 class="name" id=".eventListener"><span class="type-signature">(static) </span>eventListener<span class="signature">(option)</span><span class="type-signature"> &rarr; {<a href="util.event.EventListener.html">util.event.EventListener</a>}</span></h4>
 
     
 
@@ -314,6 +314,9 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
 
 
 
+
+    <h5>This:</h5>
+    <ul><li><a href="module-EventJS.html">module:EventJS</a></li></ul>
 
 
 
@@ -342,7 +345,7 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
 
         <tr>
             
-                <td class="name"><code>opt</code></td>
+                <td class="name"><code>option</code></td>
             
 
             <td class="type">
@@ -581,6 +584,45 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
 
         <tr>
             
+                <td class="name"><code>noteList</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "own"
+                
+                </td>
+            
+
+            <td class="description last">use on eventPicker</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>noteAction</code></td>
             
 
@@ -658,45 +700,6 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>noteList</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">external:String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "own"
-                
-                </td>
-            
-
-            <td class="description last">use on eventPicker</td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -741,7 +744,7 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line440">line 440</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line604">line 604</a>
     </li></ul></dd>
     
 
@@ -750,6 +753,24 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
     <dd class="tag-tutorial">
         <ul>
             <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#eventListener">eventListener</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#option-self">eventListener option.self</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#eventtrigger-option-self">eventListener eventTrigger option.self</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#option-self-eventtrigger-option-self">eventListener option.self eventTrigger option.self</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#option-async">eventListener option.async</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#action-string">eventListener option.action String</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#action-namespace">eventListener option.action Namespace</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#action-regexp">eventListener option.action RegExp</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#path-string">eventListener option.path String</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS_test.html#path-regexp">eventListener option.path RegExp</a></em></li>
         </ul>
     </dd>
     
@@ -782,7 +803,7 @@ Crisp.defineEvent( myObject, { parent: '__myparent__' });</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">util.event.EventListener</span>
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
 
 
     </dd>
@@ -808,7 +829,7 @@ myObject.eventListener({
 
     
 
-    <h4 class="name" id=".eventPicker"><span class="type-signature">(static) </span>eventPicker<span class="signature">(opt)</span><span class="type-signature"> &rarr; {EventPicker}</span></h4>
+    <h4 class="name" id=".eventPicker"><span class="type-signature">(static) </span>eventPicker<span class="signature">(option)</span><span class="type-signature"> &rarr; {<a href="util.event.EventPicker.html">util.event.EventPicker</a>}</span></h4>
 
     
 
@@ -819,6 +840,9 @@ myObject.eventListener({
 
 
 
+
+    <h5>This:</h5>
+    <ul><li><a href="module-EventJS.html">module:EventJS</a></li></ul>
 
 
 
@@ -847,7 +871,7 @@ myObject.eventListener({
 
         <tr>
             
-                <td class="name"><code>opt</code></td>
+                <td class="name"><code>option</code></td>
             
 
             <td class="type">
@@ -928,45 +952,6 @@ myObject.eventListener({
 
         <tr>
             
-                <td class="name"><code>self</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">external:Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    this
-                
-                </td>
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>action</code></td>
             
 
@@ -994,7 +979,7 @@ myObject.eventListener({
             
                 <td class="default">
                 
-                    "task"
+                    <a href="util.event.html#.defaultPickerAction">util.event.defaultPickerAction</a>
                 
                 </td>
             
@@ -1084,7 +1069,7 @@ myObject.eventListener({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line529">line 529</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line706">line 706</a>
     </li></ul></dd>
     
 
@@ -1093,6 +1078,20 @@ myObject.eventListener({
     <dd class="tag-tutorial">
         <ul>
             <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html">http://opencrisp.wca.at/tutorials/EventJS-picker_test.html</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventpicker">eventPicker</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#option-action">eventPicker option.action</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#option-path">eventPicker option.path</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#multi-note">eventPicker multi note</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-path">eventPicker eventListener filter path</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-notepath">eventPicker eventListener filter notePath</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-noteaction">eventPicker eventListener filter noteAction</a></em></li>
         </ul>
     </dd>
     
@@ -1125,7 +1124,7 @@ myObject.eventListener({
     </dt>
     <dd>
         
-<span class="param-type">EventPicker</span>
+<span class="param-type"><a href="util.event.EventPicker.html">util.event.EventPicker</a></span>
 
 
     </dd>
@@ -1169,7 +1168,7 @@ picker.Talk();
 
     
 
-    <h4 class="name" id=".eventRemove"><span class="type-signature">(static) </span>eventRemove<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".eventRemove"><span class="type-signature">(static) </span>eventRemove<span class="signature">(event)</span><span class="type-signature"> &rarr; {<a href="module-EventJS.html">module:EventJS</a>}</span></h4>
 
     
 
@@ -1180,6 +1179,9 @@ picker.Talk();
 
 
 
+
+    <h5>This:</h5>
+    <ul><li><a href="module-EventJS.html">module:EventJS</a></li></ul>
 
 
 
@@ -1265,7 +1267,7 @@ picker.Talk();
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line565">line 565</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line742">line 742</a>
     </li></ul></dd>
     
 
@@ -1291,11 +1293,19 @@ picker.Talk();
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    this
-</div>
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-EventJS.html">module:EventJS</a></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1319,7 +1329,7 @@ myObject.eventRemove( eventObject );</code></pre>
 
     
 
-    <h4 class="name" id=".eventTrigger"><span class="type-signature">(static) </span>eventTrigger<span class="signature">(opt<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id=".eventTrigger"><span class="type-signature">(static) </span>eventTrigger<span class="signature">(option<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="module-EventJS.html">module:EventJS</a>}</span></h4>
 
     
 
@@ -1330,6 +1340,9 @@ myObject.eventRemove( eventObject );</code></pre>
 
 
 
+
+    <h5>This:</h5>
+    <ul><li><a href="module-EventJS.html">module:EventJS</a></li></ul>
 
 
 
@@ -1360,7 +1373,7 @@ myObject.eventRemove( eventObject );</code></pre>
 
         <tr>
             
-                <td class="name"><code>opt</code></td>
+                <td class="name"><code>option</code></td>
             
 
             <td class="type">
@@ -1485,7 +1498,7 @@ myObject.eventRemove( eventObject );</code></pre>
                 </td>
             
 
-            <td class="description last"></td>
+            <td class="description last">ignore the eventListener function if eventListener(option.self) is the same as eventTrigger(option.exporter)</td>
         </tr>
 
     
@@ -1563,6 +1576,43 @@ myObject.eventRemove( eventObject );</code></pre>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">AnyItem</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">alternate arguments for apply the eventListener function</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1607,7 +1657,7 @@ myObject.eventRemove( eventObject );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line471">line 471</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line640">line 640</a>
     </li></ul></dd>
     
 
@@ -1648,7 +1698,7 @@ myObject.eventRemove( eventObject );</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">this</span>
+<span class="param-type"><a href="module-EventJS.html">module:EventJS</a></span>
 
 
     </dd>
@@ -1687,13 +1737,13 @@ myObject.eventTrigger();</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-EventJS.html">EventJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.event.Event.html">Event</a></li><li><a href="util.event.EventPicker.html">EventPicker</a></li><li><a href="util.event.EventPickerNote.html">EventPickerNote</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.event.html">event</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-EventJS.html">EventJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.event.Event.html">Event</a></li><li><a href="util.event.EventListener.html">EventListener</a></li><li><a href="util.event.EventPicker.html">EventPicker</a></li><li><a href="util.event.EventPickerNote.html">EventPickerNote</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.event.html">event</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Jul 20 2015 00:07:42 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Jul 22 2015 00:38:36 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

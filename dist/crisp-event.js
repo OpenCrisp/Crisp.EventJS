@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.1.4 - 2015-07-20
+/*! OpenCrisp EventJS - v0.1.4 - 2015-07-22
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 
@@ -11,25 +11,76 @@
 	 * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html|use EventJS}
 	 */
 
+    /**
+     * @typedef {external:String|external:RegExp} util.event.optionFilter
+     */
+
+    /**
+     * @typedef  {external:Object}  util.event.optionNote
+     * @property {external:String}  [action]
+     * @property {external:String}  [path]
+     *
+     * @see  util.event.EventPicker#Note
+     * @see  util.event.EventPickerNote#Add
+     */
+
+    /**
+     * [utilTick description]
+     * @type {module:BaseJS.utilTick}
+     */
 	var utilTick		= $$.utilTick;
 	var stringToRegExp	= RegExp.escape;
 	var isType			= $$.isType;
 	
-	/**
-	 * @private
-	 * @type {external:String}
-	 * @memberOf util.event
-	 */
-	var defaultNoteList = 'own';
+
+    /**
+     * return "own";
+     * 
+     * @private
+     * @type {external:String}
+     * @memberOf util.event
+     *
+     * @example
+     * defaultNoteList; // 'own'
+     */
+    var defaultNoteList = 'own';
+
+
+    /**
+     * return "task";
+     * 
+     * @private
+     * @type {external:String}
+     * @memberOf util.event
+     *
+     * @example
+     * defaultPickerAction; // 'task'
+     */
+    var defaultPickerAction = 'task';
+
 
 	/**
 	 * Action to RegExp find left string
 	 * @private
-	 * @param {string} action
-	 * @memberOf util.event
+     * 
+	 * @param {util.event.optionFilter} [action]
+     *
+     * @return {external:RegExp}
+     * @return {Undefined}
+	 * 
+     * @memberOf util.event
 	 *
 	 * @see  util.event.EventListener
 	 * @see  util.event.EventListener#is
+     *
+     * @example
+     * toRegExpAction('update');        // /^(update)\.?/
+     * toRegExpAction('update.doc');    // /^(update\.doc)\.?/
+     * toRegExpAction('update insert'); // /^(update|insert)\.?/
+     *
+     * toRegExpAction(/^update\.?/);    // /^update\.?/
+     *
+     * toRegExpAction();                // undefined
 	 */
 	function toReqExpAction( action ) {
 		var list;
@@ -48,26 +99,48 @@
 			return stringToRegExp( item );
 		});
 
-		return new RegExp( '^' + list.join('|') + '\\.?' );
+		return new RegExp( '^(' + list.join('|') + ')\\.?' );
 	}
+
 
 	/**
 	 * Path to RegExp find left string to end
 	 * @private
-	 * @param {string} path
+     * 
+	 * @param {util.event.optionFilter} [path]
+     *
+     * @return {external:RegExp}
+     * @return {Undefined}
+     * 
 	 * @memberOf util.event
+     *
+     * @example
+     * toReqExpPath('doc');         // /^(doc)$/
+     * toReqExpPath('doc.a');       // /^(doc\.a)$/
+     * toReqExpPath('doc doc.a');   // /^(doc|doc\.a)$/
+     *
+     * toReqExpPath(/^doc\.?/);     // /^doc\.?/
+     *
+     * toReqExpPath();              // undefined
 	 */
 	function toReqExpPath( path ) {
+        var list;
 
 		if ( path === undefined ) {
 			return;
 		}
 
-		if ( !isType( path, 'RegExp' ) ) {
-			return new RegExp( '^' + stringToRegExp( path ) + '$' );
-		}
+        if ( isType( path, 'RegExp' ) ) {
+            return path;
+        }
 
-		return path;
+        list = path.split(' ');
+
+        list.map(function( item ) {
+            return stringToRegExp( item );
+        });
+
+        return new RegExp( '^(' + list.join('|') + ')$' );
 	}
 
 	/**
@@ -76,23 +149,31 @@
 	 * @memberOf util.event
 	 */
 	function EventPickerNote() {
-		this.list = {};
+		/**
+         * Object of actions
+         * @type {external:Object<...util.event.optionNote>}
+         */
+        this._list = {};
 	}
 
 	EventPickerNote.prototype = {
 
 		/**
-		 * @param {String} type
-		 * @returns {Array} List of notes
+		 * @param     {external:String} [type={@link util.event.defaultNoteList}]
+         *
+         * @this util.event.EventPickerNote
+		 * @returns {...util.event.optionNote} List of notes
 		 */
 		List: function( type ) {
 			type = type || defaultNoteList;
-			return this.list[ type ] = this.list[ type ] || [];
+			return this._list[ type ] = this._list[ type ] || [];
 		},
 
 		/**
-		 * @param {String} type
-		 * @returns {Number} length List of list
+		 * @param {external:String} type
+         *
+         * @this util.event.EventPickerNote
+		 * @returns {external:Number} length List of list
 		 */
 		Length: function( type ) {
 			var len = 0;
@@ -103,8 +184,8 @@
 			}
 			else {
 
-				for ( i in this.list ) {
-					len += this.list[i].length;
+				for ( i in this._list ) {
+					len += this._list[i].length;
 				}
 
 			}
@@ -113,19 +194,23 @@
 		},
 		
 		/**
-		 * @param {String} type
-		 * @returns {Boolen}
+		 * @param {external:String} type
+         *
+         * @this util.event.EventPickerNote
+		 * @returns {external:Boolean}
 		 */
 		Empty: function( type ) {
 			return 0 === this.Length( type );
 		},
 
 		/**
-		 * @param {Object} opt
-		 * @param {String} type
+         * @param {util.event.optionNote} option
+		 * @param {external:String} [type=option.type]
+         *
+         * @this util.event.EventPickerNote
 		 */
-		Add: function( opt, type ) {
-			this.List( opt.type || type ).push( opt );
+		Add: function( option, type ) {
+			this.List( option.type || type ).push( option );
 		}
 	};
 
@@ -134,19 +219,22 @@
 	/**
 	 * @class
 	 * @private
-	 * @param {String} action
-	 * @param {String} treat
-	 * @param {String} self
-	 * @param {String} path
-	 * @param {Object} picker
+	 * 
+     * @param {module:EventJS}         self
+	 * @param {external:Object}        picker
+     * @param {external:String}        action
+     * @param {external:String}        treat
+     * @param {external:String}        [path]
+     * 
 	 * @memberOf util.event
 	 */
-	function EventPicker( action, treat, self, path, picker ) {
-		this.action = action;
-		this.treat = treat;
+	function EventPicker( self, picker, action, treat, path ) {
 		this.self = self;
-		this.path = path;
 		this.picker = picker;
+        this.action = action;
+        this.treat = treat;
+        this.path = path;
+
 		this.wait = 1;
 		this.repeat = true;
 		this.note = new EventPickerNote();
@@ -155,7 +243,8 @@
 	EventPicker.prototype = {
 
 		/**
-		 * @returns {EventPicker}
+         * @this util.event.EventPicker
+		 * @returns {util.event.EventPicker}
 		 */
 		Wait: function() {
 			this.wait += 1;
@@ -164,7 +253,9 @@
 
 		/**
 		 * trigger this event
-		 * @returns {EventPicker}
+         * 
+         * @this util.event.EventPicker
+		 * @returns {util.event.EventPicker}
 		 */
 		Talk: function() {
 			this.wait -= 1;
@@ -181,14 +272,40 @@
 
 		/**
 		 * add note to list
-		 * @param {Object} opt
-		 * @param {String} type
-		 * @returns {EventPicker}
+         * 
+		 * @param {util.event.optionNote} option
+		 * @param {external:String} type
+         * 
+         * @this util.event.EventPicker
+		 * @returns {util.event.EventPicker}
 		 */
-		Note: function( opt, type ) {
-			this.note.Add( opt, type );
+		Note: function( option, type ) {
+			this.note.Add( option, type );
 			return this;
-		}
+		},
+
+        Test: function( event ) {
+            var x=0;
+
+            this.note.List( event._noteList ).forEach(function( note ) {
+                var testOffList=0;
+
+                if ( event._notePath && !event._notePath.test( note.path ) ) {
+                    testOffList+=1;
+                }
+
+                if ( event._noteAction && !event._noteAction.test( note.action ) ) {
+                    testOffList+=1;
+                }
+
+                if ( testOffList===0 ) {
+                    x+=1;
+                }
+            });
+
+            return x===0;
+        }
+
 	};
 
 
@@ -197,95 +314,126 @@
 
 
 
-	/*
+	/**
 	 * @class
 	 * @private
+     *
+     * @param {external:Object}                 option
+     * @param {util.utilTickCallback}           option.listen           initialice {@link util.event.EventListener#_listen}
+     * @param {*}                               option.self             initialice {@link util.event.EventListener#_self}
+     * @param {external:Boolean}                [option.async]          initialice {@link util.event.EventListener#_async}
+     * @param {external:String|external:RegExp} [option.action]         initialice {@link util.event.EventListener#_action}
+     * @param {external:String|external:RegExp} [option.path]           initialice {@link util.event.EventListener#_path}
+     * @param {external:String}                 [option.noteList={@link util.event.defaultNoteList}]    initialice {@link util.event.EventListener#_noteList}
+     * @param {external:String|external:RegExp} [option.noteAction]     initialice {@link util.event.EventListener#_noteAction}
+     * @param {external:String|external:RegExp} [option.notePath]       initialice {@link util.event.EventListener#_notePath}
+     * 
 	 * @memberOf util.event
 	 */
-	function EventListener( opt ) {
-		this.listen	= opt.listen;
-		this.self	= opt.self;
-		this.async	= opt.async;
+	function EventListener( option ) {
+        /**
+         * function for callback
+         * @private
+         * @type {util.utilTickCallback}
+         */
+		this._listen = option.listen;
+
+        /**
+         * object for apply {@link util.event.EventListener#_listen}
+         * @private
+         * @type {*}
+         */
+		this._self = option.self;
+
+        /**
+         * enabled the asynchronus apply of {@link util.event.EventListener#_listen} with {@link module:BaseJS.utilTick}
+         * @private
+         * @type {external:Boolean}
+         */
+		this._async = option.async;
 		
-		this.action		= toReqExpAction( opt.action );
-		this.path		= toReqExpPath( opt.path );
+        /**
+         * Regular Expression for {@link util.event.EventListener#talk} apply test 
+         * @private
+         * @type {external:RegExp}
+         */
+		this._action = toReqExpAction( option.action );
 
-		this.noteAction	= toReqExpAction( opt.noteAction );
-		this.notePath	= toReqExpPath( opt.notePath );
+        /**
+         * Regular Expression for {@link util.event.EventListener#talk} apply test 
+         * @private
+         * @type {external:RegExp}
+         */
+		this._path = toReqExpPath( option.path );
 
-		this.noteList = opt.noteList || defaultNoteList;
+
+        /**
+         * Regular Expression for {@link util.event.EventListener#talk} apply test 
+         * @private
+         * @type {external:RegExp}
+         */
+		this._noteAction = toReqExpAction( option.noteAction );
+
+        /**
+         * Regular Expression for {@link util.event.EventListener#talk} apply test 
+         * @private
+         * @type {external:RegExp}
+         */
+		this._notePath = toReqExpPath( option.notePath );
+
+        /**
+         * name of noteList
+         * @private
+         * @type {external:String}
+         */
+		this._noteList = option.noteList || defaultNoteList;
 	}
 
 	EventListener.prototype = {
 
 		/**
 		 * execute event list
-		 * @param {Object} opt
+		 * @param {external:Object} option
 		 */
-		talk: function( opt ) {
-			var e = this;
-
-			if ( e.self === opt.exporter ) {
+		talk: function( option ) {
+			if ( this._self === option.exporter ) {
 				return;
 			}
 
-			if ( e.action && !e.action.test( opt.action ) ) {
+			if ( this._action && !this._action.test( option.action ) ) {
 				return;
 			}
 
-			if ( e.path && !e.path.test( opt.path ) ) {
+			if ( this._path && !this._path.test( option.path ) ) {
 				return;
 			}
 
-			if ( e.notePath || e.noteAction ) {
-				var x=0;
+			if ( this._notePath || this._noteAction ) {
 
-				if ( !opt.note ) {
-					return;
-				}
-
-				opt.note.list[ e.noteList ].forEach(function( note ) {
-					var testOffList=0;
-
-					if ( e.notePath && !e.notePath.test( note.path ) ) {
-						testOffList+=1;
-					}
-
-					if ( e.noteAction && !e.noteAction.test( note.action ) ) {
-						testOffList+=1;
-					}
-
-					if ( testOffList===0 ) {
-						x+=1;
-					}
-				});
-
-				if ( x===0 ) {
-					return;
-				}
+                if ( !(option instanceof EventPicker) || option.Test( this ) ) {
+                    return;
+                }
 
 			}
 
-			// opt.async = opt.async || e.async;
-
-			utilTick( e.self, e.listen, opt, e.async );
+			utilTick( this._self, this._listen, option, this._async );
 		},
 
 		/**
-		 * @param {Object} opt
-		 * @return {Boolean}
+		 * @param  {external:Object} option
+		 * @return {external:Boolean}
 		 */
-		is: function( opt ) {
+		is: function( option ) {
 			var action;
 
-			if ( this.action && opt.action ) {
-				action = this.action.toString() === toReqExpAction( opt.action ).toString();
+			if ( this._action && option.action ) {
+				action = this._action.toString() === toReqExpAction( option.action ).toString();
 			}
 			else {
-				action = this.action === undefined || opt.action === undefined;
+				action = this._action === undefined || option.action === undefined;
 			}
 
-			return ( this.listen === opt.listen && action );
+			return ( this._listen === option.listen && action );
 		}
 	};
 
@@ -297,18 +445,23 @@
 	 * @memberOf util.event
 	 */
 	function Event() {
-		this.listener = [];
+        /**
+         * list of all registered eventListener
+         * @private
+         * @type {external:Array<util.event.EventListener>}
+         */
+		this._listener = [];
 	}
 
 	Event.prototype = {
 
 		/**
-		 * @param {Object} opt
-		 * @return {EventLintener} existing eventListener or new eventListener
+		 * @param {external:Object} opt
+		 * @return {util.event.EventLintener} existing eventListener or new eventListener
 		 */
 		add: function( opt ) {
 			var listener,
-				list = this.listener;
+				list = this._listener;
 
 			for ( var i=0, m=list.length; i<m; i+=1 ) {
 				if ( list[i].is( opt ) ) {
@@ -323,26 +476,26 @@
 			return listener;
 		},
 
-		/**
-		 * @param  {Object} opt
-		 * @return {Event}
-		 */
-		trigger: function( opt ) {
-			var list = this.listener;
+        /**
+         * @param  {Object} opt
+         * @return {Event}
+         */
+        trigger: function( opt ) {
+            var list = this._listener;
 
-			for ( var i=0, m=list.length; i<m; i+=1 ) {
-				list[i].talk( opt );
-			}
+            for ( var i=0, m=list.length; i<m; i+=1 ) {
+                list[i].talk( opt );
+            }
 
-			return this;
-		},
+            return this;
+        },
 
 		/**
 		 * @param  {EventLinstener} obj
 		 * @return {Event}
 		 */
 		remove: function( obj ) {
-			var list = this.listener;
+			var list = this._listener;
 
 			for ( var i=0, m=list.length; i<m; i+=1 ) {
 				if ( list[i] === obj ) {
@@ -360,16 +513,16 @@
 	/**
 	 * Create mothods from EventJS on any Object
 	 * @function module:BaseJS.defineEvent
-	 * @param  {external:Object} object any Object for initiate EventJS methods
-	 * @param  {external:Object} [option]
-	 * @param  {external:String} [option.event=__event__] name of event cache property
-	 * @param  {external:String} [option.parent=__parent__] name of parent reference property
-	 * @return {module:EventJS} returns the given object
+	 * @param  {external:Object} moduleObject any Object for initiate EventJS methods
+	 * @param  {external:Object} [moduleOption]
+	 * @param  {external:String} [moduleOption.event=__event__] name of event cache property
+	 * @param  {external:String} [moduleOption.parent=__parent__] name of parent reference property
+	 * @return {module:EventJS} returns the given moduleObject
 	 *
 	 * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#defineEvent}
 	 * 
 	 */
-	$$.defineEvent = function( object, option ) {
+	$$.defineEvent = function( moduleObject, moduleOption ) {
 
 		/**
 		 * @module EventJS
@@ -379,9 +532,9 @@
 		 * 
 		 */
 
-		option = option || {};
-		option.event = option.event || '__event__';
-		option.parent = option.parent || '__parent__';
+		moduleOption = moduleOption || {};
+		moduleOption.event = moduleOption.event || '__event__';
+		moduleOption.parent = moduleOption.parent || '__parent__';
 
 		/**
 		 * @property {util.event.Event}
@@ -393,7 +546,7 @@
 		 * var myObject = {};
 		 * Crisp.defineEvent( myObject, { event: '__myevent__' });
 		 */
-		Object.defineProperty( object, option.event, { writabel: true, value: new Event() });
+		Object.defineProperty( moduleObject, moduleOption.event, { writabel: true, value: new Event() });
 
 		/**
 		 * @abstract
@@ -410,51 +563,67 @@
 
 
 
-		Object.defineProperties( object, {
+		Object.defineProperties( moduleObject, {
 
-			/**
-			 * @function
-			 * @param {external:Object} opt
-			 * @param {util.event.listenCallback} opt.listen
-			 * @param {external:Object} [opt.self=this]
-			 * @param {external:Boolean} [opt.async=false]
-			 * 
-			 * @param {external:String|external:RegExp} [opt.action]
-			 * @param {external:String|external:RegExp} [opt.path]
-			 * 
-			 * @param {external:String|external:RegExp} [opt.noteAction] use on eventPicker
-			 * @param {external:String|external:RegExp} [opt.notePath] use on eventPicker
-			 * @param {external:String} [opt.noteList="own"] use on eventPicker
-			 * @return {util.event.EventListener}
-			 *
-			 * @memberOf module:EventJS
-			 *
-			 * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#eventListener|eventListener}
-			 *
-			 * @example
-			 * var myObject = {};
-			 * 
-			 * Crisp.defineEvent( myObject );
-			 * 
-			 * myObject.eventListener({
-			 *   listen: function( e ) {}
-			 * });
-			 */
+            /**
+             * @function
+             * @param {external:Object}                 option
+             * @param {util.event.listenCallback}       option.listen
+             * @param {external:Object}                 [option.self=this]
+             * @param {external:Boolean}                [option.async=false]
+             * 
+             * @param {external:String|external:RegExp} [option.action]
+             * @param {external:String|external:RegExp} [option.path]
+             * 
+             * @param {external:String}                 [option.noteList="own"] use on eventPicker
+             * @param {external:String|external:RegExp} [option.noteAction] use on eventPicker
+             * @param {external:String|external:RegExp} [option.notePath] use on eventPicker
+             * 
+             * @this module:EventJS
+             * @return {util.event.EventListener}
+             *
+             * @memberOf module:EventJS
+             *
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#eventListener|eventListener}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#option-self|eventListener option.self}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#eventtrigger-option-self|eventListener eventTrigger option.self}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#option-self-eventtrigger-option-self|eventListener option.self eventTrigger option.self}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#option-async|eventListener option.async}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#action-string|eventListener option.action String}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#action-namespace|eventListener option.action Namespace}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#action-regexp|eventListener option.action RegExp}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#path-string|eventListener option.path String}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#path-regexp|eventListener option.path RegExp}
+             *
+             * @example
+             * var myObject = {};
+             * 
+             * Crisp.defineEvent( myObject );
+             * 
+             * myObject.eventListener({
+             *   listen: function( e ) {}
+             * });
+             */
 			eventListener: {
-				value: function ( opt ) {
-					opt.self = opt.self || this;
-					return this[ option.event ].add( opt );
+				value: function ( option ) {
+					option.self = option.self || this;
+					return this[ moduleOption.event ].add( option );
 				}
 			},
 
 			/**
 			 * @function
-			 * @param {external:Object}  [opt]
-			 * @param {external:Boolean} [opt.repeat=false]
-			 * @param {external:Object}  [opt.exporter]
-			 * @param {external:String}  [opt.action]
-			 * @param {external:String}  [opt.path]
-			 * @return {this}
+			 * @param {external:Object}  [option]
+			 * @param {external:Boolean} [option.repeat=false]
+			 * @param {external:Object}  [option.exporter]      ignore the eventListener function if eventListener(option.self) is the same as eventTrigger(option.exporter) 
+             * 
+			 * @param {external:String}  [option.action]
+             * @param {external:String}  [option.path]
+             * 
+			 * @param {AnyItem}          [option.args]          alternate arguments for apply the eventListener function
+             *
+             * @this module:EventJS
+			 * @return {module:EventJS}
 			 *
 			 * @memberOf module:EventJS
 			 *
@@ -472,17 +641,17 @@
 			 * myObject.eventTrigger();
 			 */
 			eventTrigger: {
-				value: function ( opt ) {
+				value: function ( option ) {
 					var parent;
 
-					opt = opt || {};
-					opt.self = opt.self || this;
-					parent = this[ option.parent ];
+					option = option || {};
+					option.self = option.self || this;
+					parent = this[ moduleOption.parent ];
 
-					this[ option.event ].trigger( opt );
+					this[ moduleOption.event ].trigger( option );
 
-					if ( opt.repeat && parent && $$.isType( parent.eventTrigger, 'Function' ) ) {
-						parent.eventTrigger( opt );
+					if ( option.repeat && parent && $$.isType( parent.eventTrigger, 'Function' ) ) {
+						parent.eventTrigger( option );
 					}
 
 					return this;
@@ -491,16 +660,24 @@
 
 			/**
 			 * @function
-			 * @param {external:Object} opt
-			 * @param {external:Object} opt.cache
-			 * @param {external:Object} [opt.self=this]
-			 * @param {external:String} [opt.action="task"]
-			 * @param {external:String} [opt.path]
-			 * @return {EventPicker}
+			 * @param {external:Object} option
+			 * @param {external:Object} option.cache
+			 * @param {external:String} [option.action={@link util.event.defaultPickerAction}]
+			 * @param {external:String} [option.path]
+             *
+             * @this module:EventJS
+			 * @return {util.event.EventPicker}
 			 *
 			 * @memberOf module:EventJS
 			 *
 			 * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventpicker|eventPicker}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#option-action|eventPicker option.action}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#option-path|eventPicker option.path}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#multi-note|eventPicker multi note}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-path|eventPicker eventListener filter path}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-notepath|eventPicker eventListener filter notePath}
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-picker_test.html#eventlistener-filter-noteaction|eventPicker eventListener filter noteAction}
 			 *
 			 * @example
 			 * var myObject = {};
@@ -530,28 +707,28 @@
 			 * // list: '{"list":{"own":[{"action":"update"}]}}'
 			 */
 			eventPicker: {
-				value: function ( opt ) {
-					var action, picker, treat, self;
+				value: function ( option ) {
+					var action, picker, treat;
 
-					picker = opt.cache.picker = opt.cache.picker || {};
-					action = opt.action || 'task';
+					picker = option.cache.picker = option.cache.picker || {};
+					action = option.action || defaultPickerAction;
 					treat = action.split('.')[0];
 
 					if ( picker[ treat ] instanceof EventPicker ) {
 						return picker[ treat ].Wait();
 					}
 
-					self = opt.self || this;
-
-					return picker[ treat ] = new EventPicker( action, treat, self, opt.path, picker );
+					return picker[ treat ] = new EventPicker( this, picker, action, treat, option.path );
 				}
 			},
 
 			/**
 			 * @function
 			 * @param {Object} event
-			 * @return this
-			 *
+			 * 
+             * @this module:EventJS
+             * @return {module:EventJS}
+             *
 			 * @memberOf module:EventJS
 			 * 
 			 * @example
@@ -567,14 +744,14 @@
 			 */
 			eventRemove: {
 				value: function ( eventObject ) {
-					this[ option.event ].remove( eventObject );
+					this[ moduleOption.event ].remove( eventObject );
 					return this;
 				}
 			}
 
 		});
 
-		return object;
+		return moduleObject;
 	};
 
 })(Crisp);

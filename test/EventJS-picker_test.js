@@ -1,38 +1,113 @@
 
-exports['basic eventPicker'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
+// [doc of EventJS](http://opencrisp.wca.at/docs/module-EventJS.html)<br />
+// [doc of defineEvent](http://opencrisp.wca.at/docs/module-BaseJS.html#defineEvent)
 
-	function MyObject() {}
+// ## eventPicker
+// [doc of eventPicker](http://opencrisp.wca.at/docs/module-EventJS.html#eventPicker)
+exports['eventPicker'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(4);
 
-	var myObject = new MyObject();
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	var pickerCache = {};
+    var pickerCache = {};
 
-	myObject.eventListener({
-		action: 'task',
-		listen: function( e ) {
-			assert.equal( 'task', e.action );
-			assert.equal( '{"list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'task', e.action );
+            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	var picker = myObject.eventPicker({
-		cache: pickerCache
-	});
+    var picker = myObject.eventPicker({
+        cache: pickerCache
+    });
 
-	picker.Note({
-		action: 'update'
-	});
+    picker.Note({
+        action: 'update'
+    });
 
-	picker.Talk();
+    picker.Talk();
 
-	done();
+    done();
 };
 
 
-exports['multi note eventPicker'] = function(assert) {
+// ### option.action
+exports['eventPicker option.action'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(4);
+
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+
+    var pickerCache = {};
+
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'changed', e.action );
+            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    var picker = myObject.eventPicker({
+        action: 'changed',
+        cache: pickerCache
+    });
+
+    picker.Note({
+        action: 'update'
+    });
+
+    picker.Talk();
+
+    done();
+};
+
+
+// ### option.path
+exports['eventPicker option.path'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(4);
+
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+
+    var pickerCache = {};
+
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'doc.a', e.path );
+            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    var picker = myObject.eventPicker({
+        path: 'doc.a',
+        cache: pickerCache
+    });
+
+    picker.Note({
+        action: 'update'
+    });
+
+    picker.Talk();
+
+    done();
+};
+
+
+// ### multi note
+exports['eventPicker multi note'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 
@@ -47,7 +122,7 @@ exports['multi note eventPicker'] = function(assert) {
 		action: 'task',
 		listen: function( e ) {
 			assert.equal( 'task', e.action );
-			assert.equal( '{"list":{"a":[{"type":"a","action":"update"}],"b":[{"type":"b","action":"update"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"a":[{"type":"a","action":"update"}],"b":[{"type":"b","action":"update"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -71,7 +146,8 @@ exports['multi note eventPicker'] = function(assert) {
 };
 
 
-exports['path note eventPicker'] = function(assert) {
+// ### eventListener filter path
+exports['eventPicker eventListener filter path'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 
@@ -85,7 +161,7 @@ exports['path note eventPicker'] = function(assert) {
 	myObject.eventListener({
 		path: 'doc',
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -99,7 +175,7 @@ exports['path note eventPicker'] = function(assert) {
 	myObject.eventListener({
 		path: /^d/,
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -120,7 +196,8 @@ exports['path note eventPicker'] = function(assert) {
 };
 
 
-exports['filter notePath eventPicker'] = function(assert) {
+// ### eventListener filter notePath
+exports['eventPicker eventListener filter notePath'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 
@@ -134,7 +211,7 @@ exports['filter notePath eventPicker'] = function(assert) {
 	myObject.eventListener({
 		notePath: 'doc.x',
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -148,7 +225,7 @@ exports['filter notePath eventPicker'] = function(assert) {
 	myObject.eventListener({
 		notePath: /^d/,
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -169,7 +246,8 @@ exports['filter notePath eventPicker'] = function(assert) {
 };
 
 
-exports['filter noteAction eventPicker'] = function(assert) {
+// ### eventListener filter noteAction
+exports['eventPicker eventListener filter noteAction'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 
@@ -183,7 +261,7 @@ exports['filter noteAction eventPicker'] = function(assert) {
 	myObject.eventListener({
 		noteAction: 'update',
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 
@@ -197,7 +275,7 @@ exports['filter noteAction eventPicker'] = function(assert) {
 	myObject.eventListener({
 		noteAction: /^u/,
 		listen: function( e ) {
-			assert.equal( '{"list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+			assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
 		}
 	});
 

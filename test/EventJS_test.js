@@ -1,10 +1,32 @@
 
-// ## EventJS
-// [doc of EventJS](http://opencrisp.wca.at/docs/module-EventJS.html)
+// [doc of EventJS](http://opencrisp.wca.at/docs/module-EventJS.html)<br />
+// [doc of defineEvent](http://opencrisp.wca.at/docs/module-BaseJS.html#defineEvent)
+
+// ## eventListener
+// [doc of eventListener](http://opencrisp.wca.at/docs/module-EventJS.html#eventListener)
+exports['eventListener'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+        
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    myObject.eventTrigger();
+
+    done();
+};
 
 
-// ### Options
-// #### __event__
+// ## Options
+// ### __event__
 // [doc of EventJS option __event__](http://opencrisp.wca.at/docs/module-EventJS.html#__event__)
 exports['option __event__'] = function(assert) {
 	var done = assert.done || assert.async();
@@ -54,7 +76,7 @@ exports['option __event__ rename'] = function(assert) {
 };
 
 
-// #### __parent__
+// ### __parent__
 // [doc of EventJS option __parent__](http://opencrisp.wca.at/docs/module-EventJS.html#__parent__)
 exports['option __parent__'] = function(assert) {
 	var done = assert.done || assert.async();
@@ -137,9 +159,8 @@ exports['option __parent__ rename'] = function(assert) {
 
 
 
-// ### eventListener
-// [doc of eventListener](http://opencrisp.wca.at/docs/module-EventJS.html#eventListener)
-exports['eventListener opt.listen'] = function(assert) {
+// ## option.listen
+exports['eventListener option.listen'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 	
@@ -160,8 +181,8 @@ exports['eventListener opt.listen'] = function(assert) {
 };
 
 
-// #### opt.self
-exports['eventListener opt.self'] = function(assert) {
+// ## option.self
+exports['eventListener option.self'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 	
@@ -184,8 +205,8 @@ exports['eventListener opt.self'] = function(assert) {
 };
 
 
-// #### eventTrigger opt.self
-exports['eventListener eventTrigger opt.self'] = function(assert) {
+// ## eventTrigger option.self
+exports['eventListener eventTrigger option.self'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 	
@@ -209,8 +230,8 @@ exports['eventListener eventTrigger opt.self'] = function(assert) {
 };
 
 
-// #### opt.self eventTrigger opt.self
-exports['eventListener opt.self eventTrigger opt.self'] = function(assert) {
+// ## option.self eventTrigger option.self
+exports['eventListener option.self eventTrigger option.self'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 	
@@ -236,8 +257,8 @@ exports['eventListener opt.self eventTrigger opt.self'] = function(assert) {
 };
 
 
-// #### opt.async
-exports['eventListener opt.async'] = function(assert) {
+// ## option.async
+exports['eventListener option.async'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(3);
 
@@ -263,10 +284,10 @@ exports['eventListener opt.async'] = function(assert) {
 };
 
 
-// #### opt.action
+// ## option.action
 
-// ##### String
-exports['opt.action {String}'] = function(assert) {
+// ### action String
+exports['option.action {String}'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(3);
 
@@ -290,8 +311,8 @@ exports['opt.action {String}'] = function(assert) {
 };
 
 
-// ##### Namespace
-exports['opt.action {String} Namespace'] = function(assert) {
+// ### action Namespace
+exports['option.action {String} Namespace'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(3);
 
@@ -315,8 +336,8 @@ exports['opt.action {String} Namespace'] = function(assert) {
 };
 
 
-// ##### RegExp
-exports['opt.action {RegExp}'] = function(assert) {
+// ### action RegExp
+exports['option.action {RegExp}'] = function(assert) {
 	var done = assert.done || assert.async();
 
 	var myObject = {};
@@ -339,8 +360,71 @@ exports['opt.action {RegExp}'] = function(assert) {
 };
 
 
-// #### opt.noteAction
-exports['eventListener opt.noteAction noExec'] = function(assert) {
+// ## option.path
+
+// ### path String
+exports['option.path {String}'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(3);
+
+    var myObject = {};
+    Crisp.defineEvent( myObject );
+
+    myObject.eventListener({
+        path: 'doc',
+        listen: function( e ) {
+            assert.strictEqual( 'doc', e.path );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    myObject.eventTrigger({
+        path: 'doc'
+    });
+
+    // no eventTrigger
+    myObject.eventTrigger({
+        path: 'doc.a'
+    });
+
+    done();
+};
+
+// ### path RegExp
+exports['option.path {RegExp}'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(3);
+
+    var myObject = {};
+    Crisp.defineEvent( myObject );
+
+    myObject.eventListener({
+        path: /^doc$/,
+        listen: function( e ) {
+            assert.strictEqual( 'doc', e.path );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    myObject.eventTrigger({
+        path: 'doc'
+    });
+
+    // no eventTrigger
+    myObject.eventTrigger({
+        path: 'doc.a'
+    });
+
+    done();
+};
+
+
+
+
+// ## option.noteAction
+exports['eventListener option.noteAction noExec'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(1);
 
@@ -363,8 +447,8 @@ exports['eventListener opt.noteAction noExec'] = function(assert) {
 };
 
 
-// #### opt.notePath
-exports['eventListener opt.notePath noExec'] = function(assert) {
+// ## option.notePath
+exports['eventListener option.notePath noExec'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(1);
 
@@ -387,8 +471,8 @@ exports['eventListener opt.notePath noExec'] = function(assert) {
 };
 
 
-// #### opt.noteList
-exports['eventListener opt.noteList'] = function(assert) {
+// ## option.noteList
+exports['eventListener option.noteList'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(2);
 
@@ -410,9 +494,9 @@ exports['eventListener opt.noteList'] = function(assert) {
 
 
 
-// ### multi events
+// # multi events
 
-exports['multi eventListener'] = function(assert) {
+exports['multi action eventListener'] = function(assert) {
 	var done = assert.done || assert.async();
 	assert.expect(6);
 
@@ -443,7 +527,38 @@ exports['multi eventListener'] = function(assert) {
 	done();
 };
 
- 
+exports['multi path eventListener'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(6);
+
+    var test = ['doc','doc.a'];
+
+    var myObject = {};
+    var count = 0;
+    Crisp.defineEvent( myObject );
+
+    myObject.eventListener({
+        path: 'doc doc.a',
+        listen: function( e ) {
+            assert.strictEqual( test[ count ], e.path );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+            count += 1;
+        }
+    });
+
+    myObject.eventTrigger({
+        path: 'doc'
+    });
+
+    myObject.eventTrigger({
+        path: 'doc.a'
+    });
+
+    done();
+};
+
+
 exports['multi eventTrigger'] = function(assert) {
 	var done = assert.done || assert.async();
 
