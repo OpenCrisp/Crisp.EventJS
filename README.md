@@ -18,6 +18,7 @@ What is CRISP? Configuration Result In Simplified Programming
     * [Browsers](#browsers)
   * [Usage](#usage)
     * [Quick example](#quick-example)
+  * [Links](#links)
 
 ## Getting Started
 
@@ -46,21 +47,30 @@ object.eventRemove( option );
 
 ### Quick example
 ```javascript
-var myObject = { a: 'A' };
+var myObject = {};
 
 Crisp.defineEvent( myObject );
 
 myObject.eventListener({
 	action: 'change',
 	listen: function( e ) {
-		console.log( 'event-data:', e.data );
+		console.log( 'event-data:', e );
 	}
 });
 
 myObject.eventTrigger({
 	action: 'change',
-	data: 'Hellow Event!'
+	args: 'Hello Event!'
 });
+
+// logs:
+// event-data: Hello Event!
 ```
 
-[More Examples on GitHub.com](https://github.com/OpenCrisp/Crisp.EventJS/tree/master/test)
+
+## Links
+ * [Online Crisp.EventJS module Documentation](http://opencrisp.wca.at/docs/module-EventJS.html)
+ * [More Examples on GitHub.com](https://github.com/OpenCrisp/Crisp.EventJS/tree/master/test)
+ * [Repository on GitHub.com](https://github.com/OpenCrisp/Crisp.EventJS)
+ * [npm package on npm.com](https://www.npmjs.com/package/crisp-event)
+ * [Build History on Travis-ci.org](https://travis-ci.org/OpenCrisp/Crisp.EventJS)
