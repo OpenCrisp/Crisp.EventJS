@@ -28,6 +28,7 @@ Use the Node Package Manager (npm) for install crisp-event
 
 ### Browsers
 ```html
+<script type="text/javascript" src="node_modules/crisp-base/dist/crisp-base.min.js"></script>
 <script type="text/javascript" src="dist/crisp-event.min.js"></script>
 ```
 
