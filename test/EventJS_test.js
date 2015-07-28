@@ -29,127 +29,127 @@ exports['eventListener'] = function(assert) {
 // ### __event__
 // [doc of EventJS option __event__](http://opencrisp.wca.at/docs/module-EventJS.html#__event__)
 exports['option __event__'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(4);
-		
-	var myObject = {};
-	assert.ok( !myObject.hasOwnProperty('__event__') );
+    var done = assert.done || assert.async();
+    assert.expect(4);
+        
+    var myObject = {};
+    assert.ok( !myObject.hasOwnProperty('__event__') );
 
-	Crisp.defineEvent( myObject );
-	assert.ok( myObject.hasOwnProperty('__event__') );
+    Crisp.defineEvent( myObject );
+    assert.ok( myObject.hasOwnProperty('__event__') );
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
 
 
 // rename the option of __event__
 exports['option __event__ rename'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(5);
-		
-	var myObject = {};
-	assert.ok( !myObject.hasOwnProperty('__myevent__') );
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = {};
+    assert.ok( !myObject.hasOwnProperty('__myevent__') );
 
-	Crisp.defineEvent( myObject, { event: '__myevent__' });
-	assert.ok( myObject.hasOwnProperty('__myevent__') );
-	assert.ok( !myObject.hasOwnProperty('__event__') );
+    Crisp.defineEvent( myObject, { event: '__myevent__' });
+    assert.ok( myObject.hasOwnProperty('__myevent__') );
+    assert.ok( !myObject.hasOwnProperty('__event__') );
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
 
 
 // ### __parent__
 // [doc of EventJS option __parent__](http://opencrisp.wca.at/docs/module-EventJS.html#__parent__)
 exports['option __parent__'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(6);
-	
-	var myChild = {};
-	var myObject = { a: myChild };
+    var done = assert.done || assert.async();
+    assert.expect(6);
+    
+    var myChild = {};
+    var myObject = { a: myChild };
 
-	Object.defineProperty( myChild, '__parent__', { value: myObject });
+    Object.defineProperty( myChild, '__parent__', { value: myObject });
 
-	Crisp.defineEvent( myChild );
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myChild );
+    Crisp.defineEvent( myObject );
 
-	assert.ok( myChild.hasOwnProperty('__parent__') );
-	assert.ok( !myObject.hasOwnProperty('__parent__') );
+    assert.ok( myChild.hasOwnProperty('__parent__') );
+    assert.ok( !myObject.hasOwnProperty('__parent__') );
 
-	myChild.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myChild, this );
-			assert.strictEqual( myChild, e.self );
-		}
-	});
+    myChild.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myChild, this );
+            assert.strictEqual( myChild, e.self );
+        }
+    });
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myChild, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myChild, e.self );
+        }
+    });
 
-	myChild.eventTrigger({
-		repeat: true
-	});
+    myChild.eventTrigger({
+        repeat: true
+    });
 
-	done();
+    done();
 };
 
 
 // rename the option of __parent__
 exports['option __parent__ rename'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(6);
-		
-	var myChild = {};
-	var myObject = { a: myChild };
+    var done = assert.done || assert.async();
+    assert.expect(6);
+        
+    var myChild = {};
+    var myObject = { a: myChild };
 
-	Object.defineProperty( myChild, '__myparent__', { value: myObject });
+    Object.defineProperty( myChild, '__myparent__', { value: myObject });
 
-	Crisp.defineEvent( myChild, { parent: '__myparent__' });
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myChild, { parent: '__myparent__' });
+    Crisp.defineEvent( myObject );
 
-	assert.ok( myChild.hasOwnProperty('__myparent__') );
-	assert.ok( !myObject.hasOwnProperty('__myparent__') );
+    assert.ok( myChild.hasOwnProperty('__myparent__') );
+    assert.ok( !myObject.hasOwnProperty('__myparent__') );
 
-	myChild.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myChild, this );
-			assert.strictEqual( myChild, e.self );
-		}
-	});
+    myChild.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myChild, this );
+            assert.strictEqual( myChild, e.self );
+        }
+    });
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myChild, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myChild, e.self );
+        }
+    });
 
-	myChild.eventTrigger({
-		repeat: true
-	});
+    myChild.eventTrigger({
+        repeat: true
+    });
 
-	done();
+    done();
 };
 
 
@@ -161,126 +161,126 @@ exports['option __parent__ rename'] = function(assert) {
 
 // ## option.listen
 exports['eventListener option.listen'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
-	
-	var myObject = {};
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = {};
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
 
 
 // ## option.self
 exports['eventListener option.self'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
-	
-	var myObject = {};
-	var optListenerSelf = {};
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = {};
+    var optListenerSelf = {};
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		self: optListenerSelf,
-		listen: function( e ) {
-			assert.strictEqual( optListenerSelf, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        self: optListenerSelf,
+        listen: function( e ) {
+            assert.strictEqual( optListenerSelf, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
 
 
 // ## eventTrigger option.self
 exports['eventListener eventTrigger option.self'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
-	
-	var myObject = {};
-	var optTriggerSelf = {};
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = {};
+    var optTriggerSelf = {};
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( optTriggerSelf, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( optTriggerSelf, e.self );
+        }
+    });
 
-	myObject.eventTrigger({
-		self: optTriggerSelf
-	});
+    myObject.eventTrigger({
+        self: optTriggerSelf
+    });
 
-	done();
+    done();
 };
 
 
 // ## option.self eventTrigger option.self
 exports['eventListener option.self eventTrigger option.self'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
-	
-	var myObject = {};
-	var optListenerSelf = {};
-	var optTriggerSelf = {};
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = {};
+    var optListenerSelf = {};
+    var optTriggerSelf = {};
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		self: optListenerSelf,
-		listen: function( e ) {
-			assert.strictEqual( optListenerSelf, this );
-			assert.strictEqual( optTriggerSelf, e.self );
-		}
-	});
+    myObject.eventListener({
+        self: optListenerSelf,
+        listen: function( e ) {
+            assert.strictEqual( optListenerSelf, this );
+            assert.strictEqual( optTriggerSelf, e.self );
+        }
+    });
 
-	myObject.eventTrigger({
-		self: optTriggerSelf
-	});
+    myObject.eventTrigger({
+        self: optTriggerSelf
+    });
 
-	done();
+    done();
 };
 
 
 // ## option.async
 exports['eventListener option.async'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(3);
+    var done = assert.done || assert.async();
+    assert.expect(3);
 
-	var count = 0;
-	var myObject = {};
+    var count = 0;
+    var myObject = {};
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		async: true,
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-			count += 1;
-			
-			done();
-		}
-	});
+    myObject.eventListener({
+        async: true,
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+            count += 1;
+            
+            done();
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	assert.strictEqual( 0, count );
+    assert.strictEqual( 0, count );
 };
 
 
@@ -288,75 +288,75 @@ exports['eventListener option.async'] = function(assert) {
 
 // ### action String
 exports['option.action {String}'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(3);
+    var done = assert.done || assert.async();
+    assert.expect(3);
 
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		action: 'change',
-		listen: function( e ) {
-			assert.strictEqual( 'change', e.action );
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        action: 'change',
+        listen: function( e ) {
+            assert.strictEqual( 'change', e.action );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger({
-		action: 'change'
-	});
+    myObject.eventTrigger({
+        action: 'change'
+    });
 
-	done();
+    done();
 };
 
 
 // ### action Namespace
 exports['option.action {String} Namespace'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(3);
+    var done = assert.done || assert.async();
+    assert.expect(3);
 
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		action: 'change',
-		listen: function( e ) {
-			assert.strictEqual( 'change.doc', e.action );
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        action: 'change',
+        listen: function( e ) {
+            assert.strictEqual( 'change.doc', e.action );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger({
-		action: 'change.doc'
-	});
+    myObject.eventTrigger({
+        action: 'change.doc'
+    });
 
-	done();
+    done();
 };
 
 
 // ### action RegExp
 exports['option.action {RegExp}'] = function(assert) {
-	var done = assert.done || assert.async();
+    var done = assert.done || assert.async();
 
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		action: /\.doc$/,
-		listen: function( e ) {
-			assert.strictEqual( 'change.doc', e.action );
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        action: /\.doc$/,
+        listen: function( e ) {
+            assert.strictEqual( 'change.doc', e.action );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger({
-		action: 'change.doc'
-	});
+    myObject.eventTrigger({
+        action: 'change.doc'
+    });
 
-	done();
+    done();
 };
 
 
@@ -425,71 +425,71 @@ exports['option.path {RegExp}'] = function(assert) {
 
 // ## option.noteAction
 exports['eventListener option.noteAction noExec'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(1);
+    var done = assert.done || assert.async();
+    assert.expect(1);
 
-	var count = 0;
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var count = 0;
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		noteAction: 'update',
-		listen: function() {
-			count += 1;
-		}
-	});
+    myObject.eventListener({
+        noteAction: 'update',
+        listen: function() {
+            count += 1;
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	assert.strictEqual( 0, count );
+    assert.strictEqual( 0, count );
 
-	done();
+    done();
 };
 
 
 // ## option.notePath
 exports['eventListener option.notePath noExec'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(1);
+    var done = assert.done || assert.async();
+    assert.expect(1);
 
-	var count = 0;
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var count = 0;
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		notePath: 'doc',
-		listen: function() {
-			count += 1;
-		}
-	});
+    myObject.eventListener({
+        notePath: 'doc',
+        listen: function() {
+            count += 1;
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	assert.strictEqual( 0, count );
+    assert.strictEqual( 0, count );
 
-	done();
+    done();
 };
 
 
 // ## option.noteList
 exports['eventListener option.noteList'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(2);
+    var done = assert.done || assert.async();
+    assert.expect(2);
 
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		noteList: 'merge',
-		listen: function( e ) {
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        noteList: 'merge',
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
 
 
@@ -497,34 +497,34 @@ exports['eventListener option.noteList'] = function(assert) {
 // # multi events
 
 exports['multi action eventListener'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(6);
+    var done = assert.done || assert.async();
+    assert.expect(6);
 
-	var test = ['change','insert'];
+    var test = ['change','insert'];
 
-	var myObject = {};
-	var count = 0;
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    var count = 0;
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		action: 'change insert',
-		listen: function( e ) {
-			assert.strictEqual( test[ count ], e.action );
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-			count += 1;
-		}
-	});
+    myObject.eventListener({
+        action: 'change insert',
+        listen: function( e ) {
+            assert.strictEqual( test[ count ], e.action );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+            count += 1;
+        }
+    });
 
-	myObject.eventTrigger({
-		action: 'change'
-	});
+    myObject.eventTrigger({
+        action: 'change'
+    });
 
-	myObject.eventTrigger({
-		action: 'insert'
-	});
+    myObject.eventTrigger({
+        action: 'insert'
+    });
 
-	done();
+    done();
 };
 
 exports['multi path eventListener'] = function(assert) {
@@ -560,61 +560,61 @@ exports['multi path eventListener'] = function(assert) {
 
 
 exports['multi eventTrigger'] = function(assert) {
-	var done = assert.done || assert.async();
+    var done = assert.done || assert.async();
 
-	var myObject = {};
-	Crisp.defineEvent( myObject );
+    var myObject = {};
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		action: 'change',
-		listen: function( e ) {
-			assert.strictEqual( 'change insert', e.action );
-			assert.strictEqual( 'm', e.data );
-		}
-	});
+    myObject.eventListener({
+        action: 'change',
+        listen: function( e ) {
+            assert.strictEqual( 'change insert', e.action );
+            assert.strictEqual( 'm', e.data );
+        }
+    });
 
-	myObject.eventListener({
-		action: 'insert',
-		listen: function( e ) {
-			assert.strictEqual( 'change insert', e.action );
-			assert.strictEqual( 'm', e.data );
-		}
-	});
+    myObject.eventListener({
+        action: 'insert',
+        listen: function( e ) {
+            assert.strictEqual( 'change insert', e.action );
+            assert.strictEqual( 'm', e.data );
+        }
+    });
 
-	myObject.eventTrigger({
-		action: 'change insert',
-		data: 'm'
-	});
+    myObject.eventTrigger({
+        action: 'change insert',
+        data: 'm'
+    });
 
-	done();
+    done();
 };
 
 
 exports['prototype function'] = function(assert) {
-	var done = assert.done || assert.async();
-	assert.expect(3);
+    var done = assert.done || assert.async();
+    assert.expect(3);
 
-	function MyObject() {
-		this.name = 'A';
-	}
+    function MyObject() {
+        this.name = 'A';
+    }
 
-	MyObject.prototype = {
-		getName: function() { return this.name; }
-	};
+    MyObject.prototype = {
+        getName: function() { return this.name; }
+    };
 
-	var myObject = new MyObject();
+    var myObject = new MyObject();
 
-	Crisp.defineEvent( myObject );
+    Crisp.defineEvent( myObject );
 
-	myObject.eventListener({
-		listen: function( e ) {
-			assert.strictEqual( 'A', this.getName() );
-			assert.strictEqual( myObject, this );
-			assert.strictEqual( myObject, e.self );
-		}
-	});
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'A', this.getName() );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
 
-	myObject.eventTrigger();
+    myObject.eventTrigger();
 
-	done();
+    done();
 };
