@@ -1,12 +1,12 @@
 
-(function($$) {
+/**
+ * Evently Crisp functions
+ * @namespace util.event
+ * 
+ * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html|use EventJS}
+ */
 
-	/**
-	 * Evently Crisp functions
-	 * @namespace util.event
-	 * 
-	 * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html|use EventJS}
-	 */
+(function($$) {
 
     /**
      * @typedef {external:String|external:RegExp} util.event.optionFilter
@@ -21,10 +21,7 @@
      * @see  util.event.EventPickerNote#Add
      */
 
-    /**
-     * [utilTick description]
-     * @type {module:BaseJS.utilTick}
-     */
+
 	var utilTick		= $$.utilTick;
 	var stringToRegExp	= RegExp.escape;
 	var isType			= $$.isType;
@@ -319,11 +316,11 @@
      * @param {util.utilTickCallback}           option.listen           initialice {@link util.event.EventListener#_listen}
      * @param {*}                               option.self             initialice {@link util.event.EventListener#_self}
      * @param {external:Boolean}                [option.async]          initialice {@link util.event.EventListener#_async}
-     * @param {external:String|external:RegExp} [option.action]         initialice {@link util.event.EventListener#_action}
-     * @param {external:String|external:RegExp} [option.path]           initialice {@link util.event.EventListener#_path}
+     * @param {util.event.optionFilter}         [option.action]         initialice {@link util.event.EventListener#_action}
+     * @param {util.event.optionFilter}         [option.path]           initialice {@link util.event.EventListener#_path}
      * @param {external:String}                 [option.noteList={@link util.event.defaultNoteList}]    initialice {@link util.event.EventListener#_noteList}
-     * @param {external:String|external:RegExp} [option.noteAction]     initialice {@link util.event.EventListener#_noteAction}
-     * @param {external:String|external:RegExp} [option.notePath]       initialice {@link util.event.EventListener#_notePath}
+     * @param {util.event.optionFilter}         [option.noteAction]     initialice {@link util.event.EventListener#_noteAction}
+     * @param {util.event.optionFilter}         [option.notePath]       initialice {@link util.event.EventListener#_notePath}
      * 
 	 * @memberOf util.event
 	 */
@@ -565,17 +562,17 @@
             /**
              * @function
              * @param {external:Object}                 option
-             * @param {util.event.listenCallback}       option.listen
-             * @param {external:Object}                 [option.self=this]
+             * @param {util.utilTickCallback}           option.listen
+             * @param {external:Object}                 [option.self={@link module:EventJS|EventJS}]
              * @param {external:Boolean}                [option.async=false]
              * 
-             * @param {external:String|external:RegExp} [option.action]
-             * @param {external:String|external:RegExp} [option.path]
+             * @param {util.event.optionFilter}         [option.action]
+             * @param {util.event.optionFilter}         [option.path]
              * 
-             * @param {external:String}                 [option.noteList="own"] use on eventPicker
-             * @param {external:String|external:RegExp} [option.noteAction] use on eventPicker
-             * @param {external:String|external:RegExp} [option.notePath] use on eventPicker
-             * 
+             * @param {external:String}                 [option.noteList={@link util.event.defaultNoteList|defaultNoteList}] use on eventPicker
+             * @param {util.event.optionFilter}         [option.noteAction] use on eventPicker
+             * @param {util.event.optionFilter}         [option.notePath] use on eventPicker
+             *
              * @this module:EventJS
              * @return {util.event.EventListener}
              *
@@ -721,7 +718,7 @@
 
 			/**
 			 * @function
-			 * @param {Object} event
+			 * @param {util.event.EventListener} eventObject
 			 * 
              * @this module:EventJS
              * @return {module:EventJS}
