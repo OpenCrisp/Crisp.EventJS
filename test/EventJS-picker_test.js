@@ -70,6 +70,32 @@ exports['eventPicker option.action'] = function(assert) {
     done();
 };
 
+exports['eventPicker option.action no exec of notelist.empty'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(0);
+
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+
+    var pickerCache = {};
+
+    myObject.eventListener({
+        listen: function() {
+            throw new Error();
+        }
+    });
+
+    var picker = myObject.eventPicker({
+        action: 'changed',
+        cache: pickerCache
+    });
+
+    picker.Talk();
+
+    done();
+};
+
 
 // ### option.path
 exports['eventPicker option.path'] = function(assert) {
@@ -288,6 +314,38 @@ exports['eventPicker eventListener filter noteAction'] = function(assert) {
     picker.Note({
         action: 'update.doc',
         path: 'doc.x'
+    });
+
+    picker.Talk();
+
+    done();
+};
+
+
+// ### 
+exports['eventPicker option.empty'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(4);
+
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+
+    var pickerCache = {};
+
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'changed', e.action );
+            assert.strictEqual( '{"_list":{}}', JSON.stringify( e.note ) );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    var picker = myObject.eventPicker({
+        action: 'changed',
+        empty: true,
+        cache: pickerCache
     });
 
     picker.Talk();

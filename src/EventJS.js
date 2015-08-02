@@ -222,12 +222,13 @@
      * 
      * @memberOf util.event
      */
-    function EventPicker( self, picker, action, treat, path ) {
+    function EventPicker( self, picker, action, treat, path, empty ) {
         this.self = self;
         this.picker = picker;
         this.action = action;
         this.treat = treat;
         this.path = path;
+        this._empty = empty;
 
         this.wait = 1;
         this.repeat = true;
@@ -254,7 +255,7 @@
         Talk: function() {
             this.wait -= 1;
 
-            if ( this.wait > 0 || this.note.Empty() ) {
+            if ( this.wait > 0 || ( !this._empty && this.note.Empty() ) ) {
                 return this;
             }
 
@@ -658,6 +659,7 @@
              * @param {external:Object} option.cache
              * @param {external:String} [option.action={@link util.event.defaultPickerAction}]
              * @param {external:String} [option.path]
+             * @param {external:Boolean} [option.empty] execute event when nodelist is empty 
              *
              * @this module:EventJS
              * @return {util.event.EventPicker}
@@ -712,7 +714,7 @@
                         return picker[ treat ].Wait();
                     }
 
-                    return picker[ treat ] = new EventPicker( this, picker, action, treat, option.path );
+                    return picker[ treat ] = new EventPicker( this, picker, action, treat, option.path, option.empty );
                 }
             },
 
