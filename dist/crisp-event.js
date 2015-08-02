@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.1.5 - 2015-08-02
+/*! OpenCrisp EventJS - v0.1.6 - 2015-08-02
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -214,6 +214,7 @@
      * @param {external:String}        action
      * @param {external:String}        treat
      * @param {external:String}        [path]
+     * @param {external:Boolean}       [empty]
      * 
      * @memberOf util.event
      */

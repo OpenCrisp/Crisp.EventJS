@@ -219,6 +219,7 @@
      * @param {external:String}        action
      * @param {external:String}        treat
      * @param {external:String}        [path]
+     * @param {external:Boolean}       [empty]
      * 
      * @memberOf util.event
      */
