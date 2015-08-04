@@ -2,7 +2,7 @@
 	"name": "crisp-event",
 	"title": "OpenCrisp EventJS",
 	"description": "Object events for NodeJS and Browser Clients",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"homepage": "http://opencrisp.wca.at",
 	"author": {
 		"name": "Fabian Schmid",
@@ -26,7 +26,8 @@
 		"test": "grunt test"
 	},
 	"dependencies": {
-		"crisp-base": "latest"
+        "crisp-base": "latest",
+		"crisp-create": "latest"
 	},
 	"devDependencies": {
 		"grunt-contrib-jshint": "~0.10.0",

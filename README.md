@@ -27,6 +27,10 @@ Use the Node Package Manager (npm) for install crisp-event
 
     npm install crisp-event
 
+or use all of OpenCrisp Utils
+
+    npm install crisp-util
+
 ### Browsers
 ```html
 <script type="text/javascript" src="node_modules/crisp-base/dist/crisp-base.min.js"></script>

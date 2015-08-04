@@ -618,3 +618,27 @@ exports['prototype function'] = function(assert) {
 
     done();
 };
+
+
+// ## eventRemove
+exports['eventRemove'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = {};
+    Crisp.defineEvent( myObject );
+
+    var eventObject = myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    myObject.eventTrigger();
+
+    myObject.eventRemove( eventObject );
+    myObject.eventTrigger();
+
+    done();
+};

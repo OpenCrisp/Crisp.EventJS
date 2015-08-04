@@ -88,10 +88,35 @@
     
 
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>define with <a href="module-BaseJS.html#.defineEvent">module:BaseJS.defineEvent</a></li>
+        </ul>
+    </dd>
+    
 
     
 </dl>
 
+
+        
+            <h3>Example</h3>
+            
+        <p class="code-caption">inherit namespace with module:CreateJS</p>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+myObject.eventTrigger();</code></pre>
 
         
     
@@ -125,6 +150,112 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".__event__"><span class="type-signature">(static) </span>__event__<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.Event.html">util.event.Event</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line637">line 637</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 
         
             
@@ -182,7 +313,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line40">line 40</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -259,7 +390,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line53">line 53</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -281,10 +412,1002 @@
 
 
         
+            
+<h4 class="name" id="eventPicker"><span class="type-signature"></span>eventPicker<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.event.html#.eventPicker">util.event.eventPicker</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line742">line 742</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventPicker">http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventPicker</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+var pickerCache = {};
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( 'task', e.action );
+        assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+var picker = myObject.eventPicker({
+    cache: pickerCache
+});
+
+picker.Note({
+    action: 'update'
+});
+
+picker.Talk();</code></pre>
+
+
+
+        
     
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".eventListener"><span class="type-signature">(private, static) </span>eventListener<span class="signature">(option, propertyEvent)</span><span class="type-signature"> &rarr; {<a href="util.event.EventListener.html">util.event.EventListener</a>}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>self</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>propertyEvent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.html#.__event__">util.event.__event__</a></span>
+|
+
+<span class="param-type"><a href="module-EventJS.html#__event__">module:EventJS#__event__</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line538">line 538</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.event.html#eventListener">util.event#eventListener</a></li>
+        
+            <li><a href="module-EventJS.html#.eventListener">module:EventJS.eventListener</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".eventPicker"><span class="type-signature">(private, static) </span>eventPicker<span class="signature">(option)</span><span class="type-signature"> &rarr; {<a href="util.event.EventPicker.html">util.event.EventPicker</a>}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>{this}</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.html#.eventPicker">util.event.eventPicker</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line589">line 589</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.event.html#eventPicker">util.event#eventPicker</a></li>
+        
+            <li><a href="module-EventJS.html#.eventPicker">module:EventJS.eventPicker</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="util.event.EventPicker.html">util.event.EventPicker</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".eventRemove"><span class="type-signature">(private, static) </span>eventRemove<span class="signature">(eventObject, propertyEvent)</span><span class="type-signature"> &rarr; {this}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>eventObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>propertyEvent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.html#.__event__">util.event.__event__</a></span>
+|
+
+<span class="param-type"><a href="module-EventJS.html#__event__">module:EventJS#__event__</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line623">line 623</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.event.html#eventRemove">util.event#eventRemove</a></li>
+        
+            <li><a href="module-EventJS.html#.eventRemove">module:EventJS.eventRemove</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">this</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".eventTrigger"><span class="type-signature">(private, static) </span>eventTrigger<span class="signature">(option<span class="signature-attributes">opt</span>, propertyEvent, propertyParent)</span><span class="type-signature"> &rarr; {this}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>{this}</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html#talk">util.event.EventListener#talk</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>self</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>propertyEvent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.html#.__event__">util.event.__event__</a></span>
+|
+
+<span class="param-type"><a href="module-EventJS.html#__event__">module:EventJS#__event__</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>propertyParent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">util.event.__parent__</span>
+|
+
+<span class="param-type"><a href="module-EventJS.html#__parent__">module:EventJS#__parent__</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line561">line 561</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.event.html#eventTrigger">util.event#eventTrigger</a></li>
+        
+            <li><a href="module-EventJS.html#.eventTrigger">module:EventJS.eventTrigger</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">this</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
         
             
@@ -403,7 +1526,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line79">line 79</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -600,7 +1723,7 @@ toRegExpAction();                // undefined</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line120">line 120</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -672,6 +1795,543 @@ toReqExpPath();              // undefined</code></pre>
 
 
         
+            
+
+    
+
+    <h4 class="name" id="eventListener"><span class="type-signature"></span>eventListener<span class="signature">(option)</span><span class="type-signature"> &rarr; {<a href="util.event.EventListener.html">util.event.EventListener</a>}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>module:CreateJS</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.event.html#.eventListener">util.event.eventListener</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line672">line 672</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener">http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+myObject.eventTrigger();</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="eventRemove"><span class="type-signature"></span>eventRemove<span class="signature">(eventObject)</span><span class="type-signature"> &rarr; {module:CreateJS}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>module:CreateJS</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>eventObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html">util.event.EventListener</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.event.html#.eventRemove">util.event.eventRemove</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line772">line 772</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventRemove">http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventRemove</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">module:CreateJS</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+var eventObject = myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+myObject.eventTrigger();
+
+myObject.eventRemove( eventObject );
+myObject.eventTrigger();</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="eventTrigger"><span class="type-signature"></span>eventTrigger<span class="signature">(option)</span><span class="type-signature"> &rarr; {module:CreateJS}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>module:CreateJS</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="util.event.EventListener.html#talk">util.event.EventListener#talk</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.event.html#.eventTrigger">util.event.eventTrigger</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line701">line 701</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener">http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">module:CreateJS</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+myObject.eventTrigger();</code></pre>
+
+
+
+        
     
 
     
@@ -732,7 +2392,7 @@ toReqExpPath();              // undefined</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line11">line 11</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -893,7 +2553,7 @@ toReqExpPath();              // undefined</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line15">line 15</a>
+        <a href="EventJS.js.html">EventJS.js</a>, <a href="EventJS.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -938,7 +2598,7 @@ toReqExpPath();              // undefined</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Sun Aug 02 2015 13:54:26 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Tue Aug 04 2015 22:39:18 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -4,6 +4,22 @@
  * @namespace util.event
  * 
  * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html|use EventJS}
+ *
+ * @see  define with {@link module:BaseJS.defineEvent}
+ * 
+ * @example <caption>inherit namespace with {@link module:CreateJS}</caption>
+ * var myObject = Crisp.utilCreate({
+ *     ns: 'util.event'
+ * }).objIni();
+ * 
+ * myObject.eventListener({
+ *     listen: function( e ) {
+ *         assert.strictEqual( myObject, this );
+ *         assert.strictEqual( myObject, e.self );
+ *     }
+ * });
+ * 
+ * myObject.eventTrigger();
  */
 
 (function($$) {
@@ -505,6 +521,260 @@
     };
 
 
+    /**
+     * @private
+     * 
+     * @param  {util.event.EventListener}   option
+     * @param  {external:Object}            [option.self=this]
+     * @param  {util.event.__event__|module:EventJS#__event__} propertyEvent
+     * 
+     * @return {util.event.EventListener}
+     *
+     * @memberOf util.event
+     *
+     * @see  util.event#eventListener
+     * @see  module:EventJS.eventListener
+     */
+    function eventListener( option, propertyEvent ) {
+        option.self = option.self || this;
+        return propertyEvent.add( option );
+    }
+
+
+
+    /**
+     * @private
+     * 
+     * @param  {util.event.EventListener#talk}                      [option]
+     * @param  {external:Object}                                    [option.self=this]
+     * @param  {util.event.__event__|module:EventJS#__event__}      propertyEvent
+     * @param  {util.event.__parent__|module:EventJS#__parent__}    propertyParent
+     * 
+     * @this {this}
+     * @return {this}
+     *
+     * @memberOf util.event
+     *
+     * @see  util.event#eventTrigger
+     * @see  module:EventJS.eventTrigger
+     */
+    function eventTrigger( option, propertyEvent, propertyParent ) {
+        option = option || {};
+        option.self = option.self || this;
+
+        propertyEvent.trigger( option );
+
+        if ( option.repeat && propertyParent && $$.isType( propertyParent.eventTrigger, 'Function' ) ) {
+            propertyParent.eventTrigger( option );
+        }
+
+        return this;
+    }
+
+
+
+    /**
+     * @private
+     * 
+     * @param  {util.event.eventPicker}   option
+     *
+     * @this {this}
+     * @return {util.event.EventPicker}
+     *
+     * @memberOf util.event
+     *
+     * @see  util.event#eventPicker
+     * @see  module:EventJS.eventPicker
+     */
+    function eventPicker( option ) {
+        var action, picker, treat;
+
+        picker = option.cache.picker = option.cache.picker || {};
+        action = option.action || defaultPickerAction;
+        treat = action.split('.')[0];
+
+        if ( picker[ treat ] instanceof EventPicker ) {
+            return picker[ treat ].Wait();
+        }
+
+        // Extension for Crisp.PropsJS
+        if ( !option.path && $$.isType( this.docPath, 'Function' ) ) {
+            option.path = this.docPath();
+        }
+
+        return picker[ treat ] = new EventPicker( this, picker, action, treat, option.path, option.empty );
+    }
+
+
+
+    /**
+     * @private
+     * 
+     * @param  {util.event.EventListener}                       eventObject
+     * @param  {util.event.__event__|module:EventJS#__event__}  propertyEvent
+     * 
+     * @return {this}
+     *
+     * @memberOf util.event
+     *
+     * @see  util.event#eventRemove
+     * @see  module:EventJS.eventRemove
+     */
+    function eventRemove( eventObject, propertyEvent ) {
+        propertyEvent.remove( eventObject );
+        return this;
+    }
+
+
+
+    var iniEvent    = { name: 'event', preset: function() { return new Event(); }, insert: true };
+    var iniParent   = { name: 'parent', preset: {} };
+    var conProperty = { proWri: true };
+
+
+    $$.ns('util.event').options = {
+
+        /**
+         * @property {util.event.Event}
+         * @name util.event.__event__
+         */
+        'event': conProperty
+    };
+
+
+    $$.ns('util.event').prototypes = {
+
+        /**
+         * @param {util.event.EventListener} option
+         *
+         * @this module:CreateJS
+         * @return {util.event.EventListener}
+         *
+         * @implements {util.event.eventListener}
+         * @memberOf   util.event.prototype
+         *
+         * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener}
+         *
+         * @example
+         * var myObject = Crisp.utilCreate({
+         *     ns: 'util.event'
+         * }).objIni();
+         * 
+         * myObject.eventListener({
+         *     listen: function( e ) {
+         *         assert.strictEqual( myObject, this );
+         *         assert.strictEqual( myObject, e.self );
+         *     }
+         * });
+         * 
+         * myObject.eventTrigger();
+         */
+        eventListener: function( option ) {
+            return eventListener.call( this, option, this._( iniEvent ) );
+        },
+
+        /**
+         * @param {util.event.EventListener#talk} option
+         *
+         * @this module:CreateJS
+         * @return {module:CreateJS}
+         *
+         * @implements {util.event.eventTrigger}
+         * @memberOf   util.event.prototype
+         *
+         * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventListener}
+         *
+         * @example
+         * var myObject = Crisp.utilCreate({
+         *     ns: 'util.event'
+         * }).objIni();
+         * 
+         * myObject.eventListener({
+         *     listen: function( e ) {
+         *         assert.strictEqual( myObject, this );
+         *         assert.strictEqual( myObject, e.self );
+         *     }
+         * });
+         * 
+         * myObject.eventTrigger();
+         */
+        eventTrigger: function( option ) {
+            return eventTrigger.call( this, option, this._( iniEvent ), this._( iniParent ) );
+        },
+
+        /**
+         * @param  {util.event.eventPicker} option
+         *
+         * @this   module:CreateJS
+         * @return {util.event.EventPicker}
+         *
+         * @implements {util.event.eventPicker}
+         * @memberOf   util.event.prototype
+         *
+         * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventPicker}
+         *
+         * @example
+         * var myObject = Crisp.utilCreate({
+         *     ns: 'util.event'
+         * }).objIni();
+         * 
+         * var pickerCache = {};
+         * 
+         * myObject.eventListener({
+         *     listen: function( e ) {
+         *         assert.strictEqual( 'task', e.action );
+         *         assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+         *         assert.strictEqual( myObject, this );
+         *         assert.strictEqual( myObject, e.self );
+         *     }
+         * });
+         * 
+         * var picker = myObject.eventPicker({
+         *     cache: pickerCache
+         * });
+         * 
+         * picker.Note({
+         *     action: 'update'
+         * });
+         * 
+         * picker.Talk();
+         */
+        eventPicker: eventPicker,
+
+        /**
+         * @param {util.event.EventListener} eventObject
+         *
+         * @this   module:CreateJS
+         * @return {module:CreateJS}
+         *
+         * @implements {util.event.eventRemove}
+         * @memberOf   util.event.prototype
+         *
+         * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS-CreateJS_test.html#eventRemove}
+         *
+         * @example
+         * var myObject = Crisp.utilCreate({
+         *     ns: 'util.event'
+         * }).objIni();
+         * 
+         * var eventObject = myObject.eventListener({
+         *     listen: function( e ) {
+         *         assert.strictEqual( myObject, this );
+         *         assert.strictEqual( myObject, e.self );
+         *     }
+         * });
+         * 
+         * myObject.eventTrigger();
+         * 
+         * myObject.eventRemove( eventObject );
+         * myObject.eventTrigger();
+         */
+        eventRemove: function( eventObject ) {
+            return eventRemove.call( this, eventObject, this._( iniEvent ) );
+        }
+
+    };
+
 
     /**
      * Create mothods from EventJS on any Object
@@ -521,11 +791,28 @@
     $$.defineEvent = function( moduleObject, moduleOption ) {
 
         /**
+         * define all event functions on your own object
+         * 
          * @module EventJS
          * 
          * @tutorial  {@link http://opencrisp.wca.at/tutorials/EventJS_test.html}
          * @tutorial  {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#options}
+         *
+         * @see  use option.ns={@link util.event} with {@link module:BaseJS.utilCreate}
+         *
+         * @example
+         * var myObject = {};
          * 
+         * Crisp.defineEvent( myObject );
+         * 
+         * myObject.eventListener({
+         *     listen: function( e ) {
+         *         assert.strictEqual( myObject, this );
+         *         assert.strictEqual( myObject, e.self );
+         *     }
+         * });
+         * 
+         * myObject.eventTrigger();
          */
 
         moduleOption = moduleOption || {};
@@ -602,8 +889,7 @@
              */
             eventListener: {
                 value: function ( option ) {
-                    option.self = option.self || this;
-                    return this[ moduleOption.event ].add( option );
+                    return eventListener.call( this, option, this[ moduleOption.event ] );
                 }
             },
 
@@ -638,19 +924,7 @@
              */
             eventTrigger: {
                 value: function ( option ) {
-                    var parent;
-
-                    option = option || {};
-                    option.self = option.self || this;
-                    parent = this[ moduleOption.parent ];
-
-                    this[ moduleOption.event ].trigger( option );
-
-                    if ( option.repeat && parent && $$.isType( parent.eventTrigger, 'Function' ) ) {
-                        parent.eventTrigger( option );
-                    }
-
-                    return this;
+                    return eventTrigger.call( this, option, this[ moduleOption.event ], this[ moduleOption.parent ] );
                 }
             },
 
@@ -704,19 +978,7 @@
              * // list: '{"list":{"own":[{"action":"update"}]}}'
              */
             eventPicker: {
-                value: function ( option ) {
-                    var action, picker, treat;
-
-                    picker = option.cache.picker = option.cache.picker || {};
-                    action = option.action || defaultPickerAction;
-                    treat = action.split('.')[0];
-
-                    if ( picker[ treat ] instanceof EventPicker ) {
-                        return picker[ treat ].Wait();
-                    }
-
-                    return picker[ treat ] = new EventPicker( this, picker, action, treat, option.path, option.empty );
-                }
+                value: eventPicker
             },
 
             /**
@@ -728,6 +990,8 @@
              *
              * @memberOf module:EventJS
              * 
+             * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#eventRemove}
+             *
              * @example
              * var myObject = {};
              * 
@@ -741,8 +1005,7 @@
              */
             eventRemove: {
                 value: function ( eventObject ) {
-                    this[ moduleOption.event ].remove( eventObject );
-                    return this;
+                    return eventRemove.call( this, eventObject, this[ moduleOption.event ] );
                 }
             }
 
