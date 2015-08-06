@@ -37,7 +37,7 @@ exports['eventPicker'] = function(assert) {
     myObject.eventListener({
         listen: function( e ) {
             assert.strictEqual( 'task', e.action );
-            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( '[{"action":"update"}]', JSON.stringify( e.List() ) );
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject, e.self );
         }

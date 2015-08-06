@@ -16,7 +16,7 @@ exports['eventPicker'] = function(assert) {
     myObject.eventListener({
         listen: function( e ) {
             assert.strictEqual( 'task', e.action );
-            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( '[{"action":"update"}]', e.List().xTo() );
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject, e.self );
         }
@@ -50,7 +50,7 @@ exports['eventPicker option.action'] = function(assert) {
     myObject.eventListener({
         listen: function( e ) {
             assert.strictEqual( 'changed', e.action );
-            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( '[{"action":"update"}]', e.List().xTo() );
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject, e.self );
         }
@@ -111,7 +111,7 @@ exports['eventPicker option.path'] = function(assert) {
     myObject.eventListener({
         listen: function( e ) {
             assert.strictEqual( 'doc.a', e.path );
-            assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.strictEqual( '[{"action":"update"}]', e.List().xTo() );
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject, e.self );
         }
@@ -135,7 +135,7 @@ exports['eventPicker option.path'] = function(assert) {
 // ### multi note
 exports['eventPicker multi note'] = function(assert) {
     var done = assert.done || assert.async();
-    assert.expect(2);
+    assert.expect(3);
 
     function MyObject() {}
 
@@ -148,7 +148,8 @@ exports['eventPicker multi note'] = function(assert) {
         action: 'task',
         listen: function( e ) {
             assert.equal( 'task', e.action );
-            assert.equal( '{"_list":{"a":[{"type":"a","action":"update"}],"b":[{"type":"b","action":"update"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"type":"a","action":"update"}]', e.List('a').xTo() );
+            assert.equal( '[{"type":"b","action":"update"}]', e.List('b').xTo() );
         }
     });
 
@@ -187,7 +188,7 @@ exports['eventPicker eventListener filter path'] = function(assert) {
     myObject.eventListener({
         path: 'doc',
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -201,7 +202,7 @@ exports['eventPicker eventListener filter path'] = function(assert) {
     myObject.eventListener({
         path: /^d/,
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -237,7 +238,7 @@ exports['eventPicker eventListener filter notePath'] = function(assert) {
     myObject.eventListener({
         notePath: 'doc.x',
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -251,7 +252,7 @@ exports['eventPicker eventListener filter notePath'] = function(assert) {
     myObject.eventListener({
         notePath: /^d/,
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -287,7 +288,7 @@ exports['eventPicker eventListener filter noteAction'] = function(assert) {
     myObject.eventListener({
         noteAction: 'update',
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -301,7 +302,7 @@ exports['eventPicker eventListener filter noteAction'] = function(assert) {
     myObject.eventListener({
         noteAction: /^u/,
         listen: function( e ) {
-            assert.equal( '{"_list":{"own":[{"action":"update.doc","path":"doc.x"}]}}', JSON.stringify( e.note ) );
+            assert.equal( '[{"action":"update.doc","path":"doc.x"}]', e.List().xTo() );
         }
     });
 
@@ -336,7 +337,7 @@ exports['eventPicker option.empty'] = function(assert) {
     myObject.eventListener({
         listen: function( e ) {
             assert.strictEqual( 'changed', e.action );
-            assert.strictEqual( '{"_list":{}}', JSON.stringify( e.note ) );
+            assert.strictEqual( '[]', e.List().xTo() );
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject, e.self );
         }

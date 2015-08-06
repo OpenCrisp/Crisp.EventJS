@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.1.7 - 2015-08-04
+/*! OpenCrisp EventJS - v0.1.8 - 2015-08-06
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -220,15 +220,17 @@
      */
     function EventPicker( self, picker, action, treat, path, empty ) {
         this.self = self;
-        this.picker = picker;
         this.action = action;
-        this.treat = treat;
         this.path = path;
+
+        this._picker = picker;
+        this._treat = treat;
         this._empty = empty;
 
-        this.wait = 1;
-        this.repeat = true;
-        this.note = new EventPickerNote();
+        this._wait = 1;
+        this._note = new EventPickerNote();
+        
+        // this.repeat = true; // @delete
     }
 
     EventPicker.prototype = {
@@ -238,7 +240,7 @@
          * @returns {util.event.EventPicker}
          */
         Wait: function() {
-            this.wait += 1;
+            this._wait += 1;
             return this;
         },
 
@@ -249,13 +251,13 @@
          * @returns {util.event.EventPicker}
          */
         Talk: function() {
-            this.wait -= 1;
+            this._wait -= 1;
 
-            if ( this.wait > 0 || ( !this._empty && this.note.Empty() ) ) {
+            if ( this._wait > 0 || ( !this._empty && this._note.Empty() ) ) {
                 return this;
             }
 
-            delete this.picker[ this.treat ];
+            delete this._picker[ this._treat ];
             this.self.eventTrigger( this );
 
             return this;
@@ -271,14 +273,22 @@
          * @returns {util.event.EventPicker}
          */
         Note: function( option, type ) {
-            this.note.Add( option, type );
+            this._note.Add( option, type );
             return this;
+        },
+
+        /**
+         * returns the object of note Lists
+         * 
+         */
+        List: function( type ) {
+            return this._note.List( type );
         },
 
         Test: function( event ) {
             var x=0;
 
-            this.note.List( event._noteList ).forEach(function( note ) {
+            this._note.List( event._noteList ).forEach(function( note ) {
                 var testOffList=0;
 
                 if ( event._notePath && !event._notePath.test( note.path ) ) {
@@ -434,6 +444,8 @@
      * @class
      * @private
      * @memberOf util.event
+     * 
+     * @requires BaseJS
      */
     function Event() {
         /**
@@ -498,6 +510,7 @@
             return this;
         }
     };
+
 
 
     /**
@@ -702,7 +715,7 @@
          * myObject.eventListener({
          *     listen: function( e ) {
          *         assert.strictEqual( 'task', e.action );
-         *         assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e.note ) );
+         *         assert.strictEqual( '{"_list":{"own":[{"action":"update"}]}}', JSON.stringify( e._note ) );
          *         assert.strictEqual( myObject, this );
          *         assert.strictEqual( myObject, e.self );
          *     }
@@ -938,7 +951,7 @@
              * myObject.eventListener({
              *   listen: function( e ) {
              *     console.log('action:', e.action );
-             *     console.log('list:', JSON.stringify( e.note ) );
+             *     console.log('list:', JSON.stringify( e._note ) );
              *   }
              * });
              * 

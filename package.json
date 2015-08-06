@@ -2,7 +2,7 @@
 	"name": "crisp-event",
 	"title": "OpenCrisp EventJS",
 	"description": "Object events for NodeJS and Browser Clients",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"homepage": "http://opencrisp.wca.at",
 	"author": {
 		"name": "Fabian Schmid",
