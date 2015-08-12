@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.1.8 - 2015-08-06
+/*! OpenCrisp EventJS - v0.1.8 - 2015-08-12
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -222,15 +222,15 @@
         this.self = self;
         this.action = action;
         this.path = path;
+        this.repeat = true;
+        this.picker = picker;
 
-        this._picker = picker;
         this._treat = treat;
         this._empty = empty;
 
         this._wait = 1;
         this._note = new EventPickerNote();
         
-        // this.repeat = true; // @delete
     }
 
     EventPicker.prototype = {
@@ -257,7 +257,7 @@
                 return this;
             }
 
-            delete this._picker[ this._treat ];
+            delete this.picker[ this._treat ];
             this.self.eventTrigger( this );
 
             return this;
@@ -590,7 +590,7 @@
         }
 
         // Extension for Crisp.PropsJS
-        if ( !option.path && $$.isType( this.docPath, 'Function' ) ) {
+        if ( !option.path && isType( this.docPath, 'Function' ) ) {
             option.path = this.docPath();
         }
 
