@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.1.8 - 2015-08-12
+/*! OpenCrisp EventJS - v0.1.10 - 2015-08-12
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 
