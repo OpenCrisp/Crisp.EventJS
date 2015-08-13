@@ -19,7 +19,7 @@
 
     var utilTick        = $$.utilTick;
     var stringToRegExp    = RegExp.escape;
-    var isType            = $$.isType;
+    var type            = $$.type;
     
 
     /**
@@ -78,7 +78,7 @@
             return;
         }
 
-        if ( isType( action, 'RegExp' ) ) {
+        if ( type.call( action, 'RegExp' ) ) {
             return action;
         }
 
@@ -119,7 +119,7 @@
             return;
         }
 
-        if ( isType( path, 'RegExp' ) ) {
+        if ( type.call( path, 'RegExp' ) ) {
             return path;
         }
 
@@ -556,7 +556,7 @@
 
         propertyEvent.trigger( option );
 
-        if ( option.repeat && propertyParent && $$.isType( propertyParent.eventTrigger, 'Function' ) ) {
+        if ( option.repeat && propertyParent && type.call( propertyParent.eventTrigger, 'Function' ) ) {
             propertyParent.eventTrigger( option );
         }
 
@@ -590,7 +590,7 @@
         }
 
         // Extension for Crisp.PropsJS
-        if ( !option.path && isType( this.docPath, 'Function' ) ) {
+        if ( !option.path && type.call( this.docPath, 'Function' ) ) {
             option.path = this.docPath();
         }
 
