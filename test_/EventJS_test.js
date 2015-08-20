@@ -312,6 +312,11 @@ exports['option.action {String}'] = function(assert) {
         action: 'changed'
     });
 
+    // no listener
+    myObject.eventTrigger({
+        action: 'doc.change'
+    });
+
     done();
 };
 

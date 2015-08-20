@@ -353,3 +353,46 @@ exports['eventPicker option.empty'] = function(assert) {
 
     done();
 };
+
+exports['eventPicker cache'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(4);
+
+    var myObject = {};
+    Crisp.defineEvent( myObject );
+
+    var pickerCache = {};
+
+    myObject.eventListener({
+        listen: function( e ) {
+            assert.strictEqual( 'task', e.action );
+            assert.strictEqual( '[{"action":"insert"},{"action":"update"}]', e.List().xTo() );
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject, e.self );
+        }
+    });
+
+    var picker0 = myObject.eventPicker({
+        cache: pickerCache
+    });
+
+    {   
+        var picker1 = myObject.eventPicker({
+            cache: pickerCache
+        });
+
+        picker1.Note({
+            action: 'insert'
+        });
+
+        picker1.Talk();
+    }
+
+    picker0.Note({
+        action: 'update'
+    });
+
+    picker0.Talk();
+
+    done();
+};

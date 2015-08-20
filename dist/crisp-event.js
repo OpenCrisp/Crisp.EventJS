@@ -1,5 +1,5 @@
-/*! OpenCrisp EventJS - v0.1.10 - 2015-08-13
-* http://opencrisp.wca.at
+/*! OpenCrisp EventJS - v0.1.10 - 2015-08-20
+* https://github.com/OpenCrisp/Crisp.EventJS
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
 
@@ -88,7 +88,7 @@
             return stringToRegExp( item );
         });
 
-        return new RegExp( '^(' + list.join('|') + ')\\.?' );
+        return new RegExp( '(^|\\s)(' + list.join('|') + ')($|\\s|\\.)' );
     }
 
 

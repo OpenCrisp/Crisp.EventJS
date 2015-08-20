@@ -55,49 +55,448 @@
 </ul>
 <h2>Index Table</h2><ul>
 <li><a href="#getting-started">Getting Started</a><ul>
-<li><a href="#nodejs">NodeJS</a></li>
-<li><a href="#browsers">Browsers</a></li>
+<li><a href="#server-nodes">Server-Nodes</a></li>
+<li><a href="#web-clients">Web-Clients</a></li>
+<li><a href="#development">Development</a></li>
 </ul>
 </li>
 <li><a href="#usage">Usage</a><ul>
-<li><a href="#quick-example">Quick example</a></li>
+<li><a href="#crispdefineevent">Crisp.defineEvent()</a></li>
+<li><a href="#crisputilcreate">Crisp.utilCreate()</a></li>
+</ul>
+</li>
+<li><a href="#eventjs-function">EventJS function</a><ul>
+<li><a href="#eventlistener">.eventListener()</a></li>
+<li><a href="#eventtrigger">.eventTrigger()</a></li>
+<li><a href="#eventpicker">.eventPicker()</a></li>
+<li><a href="#eventremove">.eventRemove()</a></li>
 </ul>
 </li>
 <li><a href="#links">Links</a></li>
 </ul>
-<h2>Getting Started</h2><h3>NodeJS</h3><p>Use the Node Package Manager (npm) for install crisp-event</p>
-<pre class="prettyprint source"><code>npm install crisp-event</code></pre><p>or use all of OpenCrisp Utils</p>
-<pre class="prettyprint source"><code>npm install crisp-util</code></pre><h3>Browsers</h3><pre class="prettyprint source lang-html"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-base/dist/crisp-base.min.js&quot;>&lt;/script>
-&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-event.min.js&quot;>&lt;/script></code></pre><h2>Usage</h2><pre class="prettyprint source lang-javascript"><code>// init
-Crisp.defineEvent( object );
+<h2>Getting Started</h2><h3>Server-Nodes</h3><p>Use <a href="https://www.npmjs.org">Node Package Manager (npm)</a> to install <code>crisp-event</code> for <a href="https://nodejs.org/">Node.js</a> and <a href="https://iojs.org/">io.js</a></p>
+<pre class="prettyprint source"><code>$ npm install crisp-event</code></pre><pre class="prettyprint source lang-javascript"><code>// use package
+require(&quot;crisp-event&quot;);</code></pre><p>or use the <a href="https://github.com/OpenCrisp/Crisp.UtilJS">OpenCrisp UtilJS</a> wraper</p>
+<pre class="prettyprint source"><code>$ npm install crisp-util</code></pre><pre class="prettyprint source lang-javascript"><code>// use package
+require(&quot;crisp-util&quot;);</code></pre><h3>Web-Clients</h3><p>Use <a href="http://bower.io/">Bower</a> to install <code>crisp-event</code> for Browsers APP's and other front-end workflows.</p>
+<pre class="prettyprint source"><code>$ bower install crisp-event</code></pre><pre class="prettyprint source lang-html"><code>&lt;!-- use package -->
+&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-event.min.js&quot;>&lt;/script></code></pre><p>or use the <a href="https://github.com/OpenCrisp/Crisp.UtilJS">OpenCrisp UtilJS</a> wraper</p>
+<pre class="prettyprint source"><code>$ bower install crisp-util</code></pre><pre class="prettyprint source lang-html"><code>&lt;!-- use package -->
+&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-util.min.js&quot;>&lt;/script></code></pre><h2>Development</h2><p>Use <a href="https://git-scm.com/">Git</a> to clone <a href="https://github.com/OpenCrisp/Crisp.EventJS">Crisp.EventJS from GitHub</a> to develop the repository with <a href="http://gruntjs.com/">Grunt</a></p>
+<pre class="prettyprint source"><code># Clone:
+$ git clone https://github.com/OpenCrisp/Crisp.EventJS.git
 
-// functions
-object.eventListener( option );
-object.eventTrigger( option );
-object.eventPicker( option );
-object.eventRemove( option );</code></pre><h3>Quick example</h3><pre class="prettyprint source lang-javascript"><code>var myObject = {};
+# Build: test, concat, test, minify, test
+$ grunt
 
+# Test: original sourcecode for developer (included in build)
+$ grunt t
+
+# Run all test-scripts on Unix
+$ sh grunt-tests.sh</code></pre><h2>Usage</h2><p>How to use <code>Crisp.EventJS</code> with JavaScript.</p>
+<h3>Crisp.defineEvent()</h3><p>How to use <code>Crisp.defineEvent( object [, option ])</code> module.</p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+
+// initialice event property functions on myObject
+Crisp.defineEvent( myObject );
+
+// or with manual property name of event and parent 
+Crisp.defineEvent( myObject, {
+    // default: __event__
+    event: '__myevent__',       // manual set the name of event cach
+    // default: __parent__
+    parent: '__myparent__'      // manual set the name of parent reference
+});</code></pre><h3>Crisp.utilCreate()</h3><p>How to use <code>Crisp.utilCreate( option )</code> with <code>util.event</code> namespace.</p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();</code></pre><h2>EventJS function</h2><h3>.eventListener()</h3><p>How to use <code>.eventListener( option )</code> on <code>myObject</code></p>
+<pre class="prettyprint source lang-javascript"><code>// listen for all triggert events
+myObject.eventListener({
+  listen: function( e ) {}
+});</code></pre><ul>
+<li><strong>option</strong><ul>
+<li><a href="#eventlistener"><strong>listen</strong> - callback function</a></li>
+<li><a href="#optionself-eventlistener"><em><strong>self</strong></em> - alternate for apply thisArg</a></li>
+<li><a href="#optionasync-eventlistener"><em><strong>async</strong></em> - acitvate asynchronous callback</a></li>
+<li><a href="#optionaction-eventlistener"><em><strong>action</strong></em> - namespace OR RegExp filter</a></li>
+<li><a href="#optionpath-eventlistener"><em><strong>path</strong></em> - like OR RegExp filter</a></li>
+<li><a href="#optionnotelist-eventlistener"><em><strong>noteList</strong></em> - like filter for eventPicker notes</a></li>
+<li><a href="#optionnoteaction-eventlistener"><em><strong>noteAction</strong></em> - namespace OR RegExp filter for eventPicker notes</a></li>
+<li><a href="#optionnotepath-eventlistener"><em><strong>notePath</strong></em> - like OR RegExp filter for eventPicker notes</a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h4>option.self (eventListener)</h4><p>works with <a href="#eventtrigger">.eventTrigger()</a> and <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set self as alternate for apply thisArg
+var thisArg = {};
+myObject.eventListener({
+  self: thsiArg,
+  listen: function( e ) {
+    this === thisArg;  // true
+  }
+});</code></pre><blockquote>
+<h4>option.async (eventListener)</h4><p>works with <a href="#eventtrigger">.eventTrigger()</a> and <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set asynchronous callback for listen:function
+myObject.eventListener({
+  async: true,
+  listen: function( e ) {}
+});</code></pre><blockquote>
+<h4>option.action (eventListener)</h4><p>works with <a href="#eventtrigger">.eventTrigger()</a> and <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set right namespase string filter
+myObject.eventListener({
+  action: 'insert',
+  listen: function( e ) {}
+});
+
+// set an expandable RegExp filter like action:'insert'
+myObject.eventListener({
+  action: /(^|\s)insert($|\s|\.)/,
+  listen: function( e ) {}
+});
+
+// set multi right namespase string filter with space seperator
+myObject.eventListener({
+  action: 'insert update',
+  listen: function( e ) {}
+});
+
+// set an expandable RegExp filter like action:'insert update'
+myObject.eventListener({
+  action: /(^|\s)(insert|update)($|\s|\.)/,
+  listen: function( e ) {}
+});</code></pre><blockquote>
+<h4>option.path (eventListener)</h4><p>works with <a href="#eventtrigger">.eventTrigger()</a> and <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set 
+myObject.eventListener({
+  action: /(^|\s)(insert|update)($|\s|\.)/,
+  listen: function( e ) {}
+});</code></pre><blockquote>
+<h4>option.noteList (eventListener)</h4><p>works with <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// filter notes in specified list 
+myObject.eventListener({
+  noteList: 'merge',
+  listen: function( e ) {}
+});</code></pre><blockquote>
+<h4>option.noteAction (eventListener)</h4><p>works with <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set filter of note action
+myObject.eventListener({
+  noteAction: 'delete',           // or RegExp like option.action
+  listen: function( e ) {}
+});</code></pre><blockquote>
+<h4>option.notePath (eventListener)</h4><p>works with <a href="#eventpicker">.eventPicker()</a></p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set filter of note path
+myObject.eventListener({
+  notePath: 'doc.b',
+  listen: function( e ) {}
+});</code></pre><h3>.eventTrigger()</h3><p>How to use <code>.eventTrigger( option )</code> on <code>myObject</code></p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({ ns: 'util.event' }).objIni();
+
+myObject.eventListener({
+  listen: function( e ) {
+    console.log('Listen');
+  }
+});
+console.log('Wait');
+
+myObject.eventTrigger();
+
+// logs:
+// Wait
+// Listen</code></pre><ul>
+<li><strong>option</strong><ul>
+<li><a href="#optionrepeat-eventtrigger"><em><strong>repeat</strong></em> - trigger parent object</a></li>
+<li><a href="#optionexporter-eventtrigger"><em><strong>exporter</strong></em> - stop recursive trigger loops</a></li>
+<li><a href="#optionaction-eventtrigger"><em><strong>action</strong></em> - full name name of namespace</a></li>
+<li><a href="#optionpath-eventtrigger"><em><strong>path</strong></em> - full name of object path</a></li>
+<li><a href="#optionargs-eventtrigger"><em><strong>args</strong></em> - alternate arguments for eventListener callback</a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h4>option.repeat (eventTrigger)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>// set repeat for trigger parent objects
+var myObject = Crisp.utilCreate({
+    ns: 'util.event',
+    options: {
+        parent: { proWri: true }
+    }
+}).objIni();
+
+var myChild = myObject.objClone().objIni({
+    parent: myObject
+});
+
+myObject.a = myChild;
+
+myChild.eventListener({
+    listen: function( e ) {
+        console.log('Listener: Child');
+    }
+});
+
+myObject.eventListener({
+    listen: function( e ) {
+        console.log('Listener: Object');
+    }
+});
+console.log('JSON', myObject.xTo() );
+
+myChild.eventTrigger({
+    repeat: true
+});
+
+// logs:
+// JSON {&quot;a&quot;:{&quot;b&quot;:&quot;B&quot;}}
+// Listener: Child
+// Listener: Object
+// End</code></pre><blockquote>
+<h4>option.exporter (eventTrigger)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+Crisp.defineEvent( myObject );
+
+myObject.eventListener({
+    listen: function( e ) {
+        console.log('Listener');
+    }
+});
+console.log('Wait');
+
+myObject.eventTrigger();
+
+myObject.eventTrigger({
+    exporter: myObject
+});
+console.log('End');
+
+// logs:
+// Wait
+// Listener
+// End</code></pre><blockquote>
+<h4>option.action (eventTrigger)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
 Crisp.defineEvent( myObject );
 
 myObject.eventListener({
     action: 'change',
     listen: function( e ) {
-        console.log( 'event-data:', e );
+        assert.strictEqual( 'change', e.action );
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
     }
 });
 
 myObject.eventTrigger({
-    action: 'change',
-    args: 'Hello Event!'
+    action: 'change'
+});</code></pre><blockquote>
+<h4>option.path (eventTrigger)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+Crisp.defineEvent( myObject );
+
+myObject.eventListener({
+    path: 'doc',
+    listen: function( e ) {
+        assert.strictEqual( 'doc', e.path );
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
 });
 
+myObject.eventTrigger({
+    path: 'doc'
+});</code></pre><blockquote>
+<h4>option.args (eventTrigger)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var thisArg = {};
+
+var myObject = Crisp.utilCreate({
+    ns: 'util.event'
+}).objIni();
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( thisArg, e );
+    }
+});
+
+myObject.eventTrigger({
+    args: thisArg
+});</code></pre><h3>.eventPicker()</h3><p>How to use <code>.eventPicker( option )</code> on <code>myObject</code></p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({ ns: 'util.event' }).objIni();
+
+myObject.eventListener({
+  listen: function( e ) {
+    console.log('Listen:', e.action, e.List().xTo() );
+  }
+});
+
+var pickerCache = {};
+var picker = myObject.eventPicker({
+    cache: pickerCache
+});
+
+picker.Note({
+    action: 'update'
+});
+console.log('Wait');
+
+picker.Talk();
+console.log('End')
+
 // logs:
-// event-data: Hello Event!</code></pre><h2>Links</h2><ul>
-<li><a href="http://opencrisp.wca.at/docs/module-EventJS.html">Online Crisp.EventJS module Documentation</a></li>
-<li><a href="https://github.com/OpenCrisp/Crisp.EventJS/tree/master/test">More Examples on GitHub.com</a></li>
-<li><a href="https://github.com/OpenCrisp/Crisp.EventJS">Repository on GitHub.com</a></li>
-<li><a href="https://www.npmjs.com/package/crisp-event">npm package on npm.com</a></li>
-<li><a href="https://travis-ci.org/OpenCrisp/Crisp.EventJS">Build History on Travis-ci.org</a></li>
+// Wait
+// Listen: task [{&quot;action&quot;:&quot;update&quot;}]
+// End</code></pre><ul>
+<li><strong>option</strong><ul>
+<li><a href="#optioncache-eventpicker"><em><strong>cache</strong></em> - event sub trigger picker cache</a></li>
+<li><a href="#optionaction-eventpicker"><em><strong>action</strong></em> - full name name of namespace</a></li>
+<li><a href="#optionpath-eventpicker"><em><strong>path</strong></em> - full name of object path</a></li>
+<li><a href="#optionempty-eventpicker"><em><strong>empty</strong></em> - allow trigger picker with empty notes </a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h4>option.cache (eventPicker)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>// Listener wait for the last Talk() on the same cache
+var myObject = Crisp.utilCreate({ ns: 'util.event' }).objIni();
+
+myObject.eventListener({
+  listen: function( e ) {
+    console.log('Listen:', e.action, e.List().xTo() );
+  }
+});
+
+var pickerCache = {};
+var picker = myObject.eventPicker({
+    cache: pickerCache
+});
+
+{
+    var sub_picker = myObject.eventPicker({
+        cache: pickerCache
+    });
+
+    sub_picker.Note({
+        action: 'insert'
+    });
+    console.log('Wait 0');
+
+    sub_picker.Talk();
+}
+
+picker.Note({
+    action: 'update'
+});
+console.log('Wait 1');
+
+picker.Talk();
+console.log('End')
+
+// logs:
+// Wait 0
+// Wait 1
+// Listen: task [{&quot;action&quot;:&quot;insert&quot;},{&quot;action&quot;:&quot;update&quot;}]
+// End</code></pre><blockquote>
+<h4>option.action (eventPicker)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+var pickerCache = {};
+
+Crisp.defineEvent( myObject );
+
+myObject.eventListener({
+    action: 'changed',
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+var picker = myObject.eventPicker({
+    action: 'changed',
+    cache: pickerCache
+});
+
+picker.Note({
+    action: 'update'
+});
+
+picker.Talk();</code></pre><blockquote>
+<h4>option.path (eventPicker)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+var pickerCache = {};
+
+Crisp.defineEvent( myObject );
+
+myObject.eventListener({
+    path: 'doc.a',
+    listen: function( e ) {
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+var picker = myObject.eventPicker({
+    path: 'doc.a',
+    cache: pickerCache
+});
+
+picker.Talk();</code></pre><blockquote>
+<h4>option.empty (eventPicker)</h4></blockquote>
+<pre class="prettyprint source lang-javascript"><code>var myObject = {};
+var pickerCache = {};
+
+Crisp.defineEvent( myObject );
+
+myObject.eventListener({
+    listen: function( e ) {
+        assert.strictEqual( '[]', e.List().xTo() );
+        assert.strictEqual( myObject, this );
+        assert.strictEqual( myObject, e.self );
+    }
+});
+
+var picker = myObject.eventPicker({
+    empty: true,
+    cache: pickerCache
+});
+
+picker.Talk();</code></pre><h3>.eventRemove()</h3><p>How to use <code>.eventRemove( event )</code> on <code>myObject</code></p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({ ns: 'util.event' }).objIni();
+
+var eventObject = myObject.eventListener({
+  listen: function( e ) {
+    console.log('Listen');
+  }
+});
+console.log('Wait 0');
+
+myObject.eventTrigger();
+
+myObject.eventRemove( eventObject );
+console.log('Wait 1');
+
+myObject.eventTrigger();
+
+console.log('End')
+
+// logs:
+// Wait 0
+// Listen
+// Wait 1
+// End</code></pre><h2>Links</h2><ul>
+<li><a href="https://github.com/OpenCrisp/Crisp.EventJS">Repository</a></li>
+<li><a href="https://github.com/OpenCrisp/Crisp.EventJS/tree/master/test">More examples</a></li>
+<li><a href="http://opencrisp.wca.at/docs/module-EventJS.html">Module documentation</a></li>
+<li><a href="https://www.npmjs.com/package/crisp-event">Node package manager</a></li>
+<li><a href="https://www.versioneye.com/nodejs/crisp-event">Version monitoring</a></li>
+<li><a href="https://travis-ci.org/OpenCrisp/Crisp.EventJS">Build history</a></li>
 </ul></article>
     </section>
 
@@ -115,7 +514,7 @@ myObject.eventTrigger({
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Aug 13 2015 23:02:20 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Aug 20 2015 23:01:06 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
