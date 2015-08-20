@@ -307,6 +307,11 @@ exports['option.action {String}'] = function(assert) {
         action: 'change'
     });
 
+    // no listener
+    myObject.eventTrigger({
+        action: 'changed'
+    });
+
     done();
 };
 
@@ -339,6 +344,7 @@ exports['option.action {String} Namespace'] = function(assert) {
 // ### action RegExp
 exports['option.action {RegExp}'] = function(assert) {
     var done = assert.done || assert.async();
+    assert.expect(3);
 
     var myObject = {};
     Crisp.defineEvent( myObject );
@@ -561,6 +567,7 @@ exports['multi path eventListener'] = function(assert) {
 
 exports['multi eventTrigger'] = function(assert) {
     var done = assert.done || assert.async();
+    assert.expect(2);
 
     var myObject = {};
     Crisp.defineEvent( myObject );
@@ -569,7 +576,6 @@ exports['multi eventTrigger'] = function(assert) {
         action: 'change',
         listen: function( e ) {
             assert.strictEqual( 'change insert', e.action );
-            assert.strictEqual( 'm', e.data );
         }
     });
 
@@ -577,13 +583,11 @@ exports['multi eventTrigger'] = function(assert) {
         action: 'insert',
         listen: function( e ) {
             assert.strictEqual( 'change insert', e.action );
-            assert.strictEqual( 'm', e.data );
         }
     });
 
     myObject.eventTrigger({
-        action: 'change insert',
-        data: 'm'
+        action: 'change insert'
     });
 
     done();

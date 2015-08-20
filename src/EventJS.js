@@ -109,7 +109,7 @@
             return stringToRegExp( item );
         });
 
-        return new RegExp( '^(' + list.join('|') + ')\\.?' );
+        return new RegExp( '(^|\\s)(' + list.join('|') + ')($|\\s|\\.)' );
     }
 
 
