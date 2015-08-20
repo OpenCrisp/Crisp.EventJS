@@ -1,0 +1,33 @@
+{
+    "name": "crisp-event",
+    "main": "dist/crisp-event.js",
+    "version": "0.2.0",
+    "homepage": "https://github.com/OpenCrisp/Crisp.EventJS",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/OpenCrisp/Crisp.EventJS.git"
+    },
+    "authors": [
+        "Fabian Schmid <fabian.schmid@wca.at>"
+    ],
+    "description": "Object event with repeater, picker and optional asynchronous.",
+    "moduleType": [
+        "globals"
+    ],
+    "keywords": [
+        "OpenCrisp", 
+        "async", 
+        "picker", 
+        "event", 
+        "listen",
+        "talk"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
