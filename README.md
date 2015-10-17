@@ -136,13 +136,13 @@ myObject.eventListener({
 
  * **option**
    * [**listen** - callback function](#eventlistener)
-   * [_**self**_ - alternate for apply thisArg](#optionself-eventlistener)
-   * [_**async**_ - acitvate asynchronous callback](#optionasync-eventlistener)
-   * [_**action**_ - namespace OR RegExp filter](#optionaction-eventlistener)
-   * [_**path**_ - like OR RegExp filter](#optionpath-eventlistener)
-   * [_**noteList**_ - like filter for eventPicker notes](#optionnotelist-eventlistener)
-   * [_**noteAction**_ - namespace OR RegExp filter for eventPicker notes](#optionnoteaction-eventlistener)
-   * [_**notePath**_ - like OR RegExp filter for eventPicker notes](#optionnotepath-eventlistener)
+   * [**_self_** - alternate for apply thisArg](#optionself-eventlistener)
+   * [**_async_** - acitvate asynchronous callback](#optionasync-eventlistener)
+   * [**_action_** - namespace OR RegExp filter](#optionaction-eventlistener)
+   * [**_path_** - like OR RegExp filter](#optionpath-eventlistener)
+   * [**_noteList_** - like filter for eventPicker notes](#optionnotelist-eventlistener)
+   * [**_noteAction_** - namespace OR RegExp filter for eventPicker notes](#optionnoteaction-eventlistener)
+   * [**_notePath_** - like OR RegExp filter for eventPicker notes](#optionnotepath-eventlistener)
 
 > #### option.self (eventListener)
 > works with [.eventTrigger()](#eventtrigger) and [.eventPicker()](#eventpicker)
@@ -263,11 +263,11 @@ myObject.eventTrigger();
 ```
 
  * **option**
-   * [_**repeat**_ - trigger parent object](#optionrepeat-eventtrigger)
-   * [_**exporter**_ - stop recursive trigger loops](#optionexporter-eventtrigger)
-   * [_**action**_ - full name name of namespace](#optionaction-eventtrigger)
-   * [_**path**_ - full name of object path](#optionpath-eventtrigger)
-   * [_**args**_ - alternate arguments for eventListener callback](#optionargs-eventtrigger)
+   * [**_repeat_** - trigger parent object](#optionrepeat-eventtrigger)
+   * [**_exporter_** - stop recursive trigger loops](#optionexporter-eventtrigger)
+   * [**_action_** - full name name of namespace](#optionaction-eventtrigger)
+   * [**_path_** - full name of object path](#optionpath-eventtrigger)
+   * [**_args_** - alternate arguments for eventListener callback](#optionargs-eventtrigger)
 
 > #### option.repeat (eventTrigger)
 
@@ -429,10 +429,10 @@ console.log('End')
 ```
 
  * **option**
-   * [_**cache**_ - event sub trigger picker cache](#optioncache-eventpicker)
-   * [_**action**_ - full name name of namespace](#optionaction-eventpicker)
-   * [_**path**_ - full name of object path](#optionpath-eventpicker)
-   * [_**empty**_ - allow trigger picker with empty notes ](#optionempty-eventpicker)
+   * [**_cache_** - event sub trigger picker cache](#optioncache-eventpicker)
+   * [**_action_** - full name name of namespace](#optionaction-eventpicker)
+   * [**_path_** - full name of object path](#optionpath-eventpicker)
+   * [**_empty_** - allow trigger picker with empty notes ](#optionempty-eventpicker)
 
 > #### option.cache (eventPicker)
 
