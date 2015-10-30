@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.2.1 - 2015-10-17
+/*! OpenCrisp EventJS - v0.2.2 - 2015-10-31
 * https://github.com/OpenCrisp/Crisp.EventJS
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
