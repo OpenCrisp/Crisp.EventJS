@@ -37,10 +37,12 @@
      * @see  util.event.EventPickerNote#Add
      */
 
-
+    var nextTick        = $$.nextTick;
     var utilTick        = $$.utilTick;
-    var stringToRegExp    = RegExp.escape;
+    var stringToRegExp  = RegExp.escape;
     var type            = $$.type;
+
+    function noop() {}
     
 
     /**
@@ -68,6 +70,8 @@
      */
     var defaultPickerAction = 'task';
 
+    var defaultOptionEvent = '__event__';
+    var defaultOptionParent = '__parent__';
 
     /**
      * Action to RegExp find left string
@@ -277,6 +281,18 @@
             if ( this._wait > 0 || ( !this._empty && this._note.Empty() ) ) {
                 return this;
             }
+
+            return this.End();
+        },
+
+        /**
+         * trigger this event
+         * 
+         * @this util.event.EventPicker
+         * @returns {util.event.EventPicker}
+         */
+        End: function() {
+            this._wait = 0;
 
             delete this.picker[ this._treat ];
             this.self.eventTrigger( this );
@@ -789,6 +805,13 @@
     };
 
 
+    function defaultOption( opt ) {
+        opt = opt || {};
+        opt.event = opt.event || defaultOptionEvent;
+        opt.parent = opt.parent || defaultOptionParent;
+        return opt;
+    }
+
     /**
      * Create mothods from EventJS on any Object
      * @function module:BaseJS.defineEvent
@@ -801,7 +824,7 @@
      * @tutorial {@link http://opencrisp.wca.at/tutorials/EventJS_test.html#defineEvent}
      * 
      */
-    $$.defineEvent = function( moduleObject, moduleOption ) {
+    function defineEvent( moduleObject, moduleOption ) {
 
         /**
          * define all event functions on your own object
@@ -828,9 +851,10 @@
          * myObject.eventTrigger();
          */
 
-        moduleOption = moduleOption || {};
-        moduleOption.event = moduleOption.event || '__event__';
-        moduleOption.parent = moduleOption.parent || '__parent__';
+        // moduleOption = moduleOption || {};
+        // moduleOption.event = moduleOption.event || defaultOptionEvent;
+        // moduleOption.parent = moduleOption.parent || defaultOptionParent;
+        moduleOption = defaultOption( moduleOption );
 
         /**
          * @property {util.event.Event}
@@ -1025,6 +1049,134 @@
         });
 
         return moduleObject;
-    };
+    }
+
+    $$.defineEvent = defineEvent;
+
+
+    /**
+     * The hasOwnEvent() method returns a boolean indicating whether the moduleObject has specified the Event module 
+     * @param  {external:Object} moduleObject any Object for initiate EventJS methods
+     * @param  {external:Object} [moduleOption]
+     * @param  {external:String} [moduleOption.event=__event__] name of event cache property
+     * @param  {external:String} [moduleOption.parent=__parent__] name of parent reference property
+     * @return {Boolean}              [description]
+     */
+    function hasOwnEvent( moduleObject, moduleOption ) {
+        moduleOption = defaultOption( moduleOption );
+        return moduleObject.hasOwnProperty( moduleOption.event ) && ( moduleObject[ moduleOption.event ] instanceof Event );
+    }
+
+    $$.hasOwnEvent = hasOwnEvent;
+
+
+
+    function nextTickPick( methodCallback, self, opt, success, picker ) {
+        methodCallback.call( self, opt, success, picker );
+        picker.Talk();
+    }
+
+    function utilPick( methodCallback, methodSchema ) {
+        function tackPick( opt, success, complete ) {
+            var event = {};
+            var picker;
+
+            success = success || noop;
+            
+            $$.defineEvent( event );
+
+            if ( complete ) {
+                event.eventListener({
+                    self: this,
+                    listen: complete
+                });
+            }
+            
+            picker = event.eventPicker({
+                cache: {},
+                empty: true
+            });
+
+            if ( opt.async ) {
+                nextTick( nextTickPick, methodCallback, this, opt, success, picker );
+            }
+            else {
+                methodCallback.call( this, opt, success, picker );
+                picker.Talk();
+            }
+
+            return this;
+        }
+
+        Object.defineProperty( tackPick, 'tick', { value: methodSchema || true });
+        Object.defineProperty( tackPick, 'callback', { value: methodCallback });
+
+        return tackPick;
+    }
+
+    $$.utilPick = utilPick;
+
+
+
+
+
+
+    function nextTickTask( methodCallback, self, opt, success, type ) {
+        var eventTask, eventChanged;
+
+        eventTask = self.eventPicker({
+            cache: opt,
+            action: 'task.doc.' + type
+        });
+
+        eventChanged = self.eventPicker({
+            cache: opt,
+            action: 'changed.doc.' + type
+        });
+
+        function note( task ) {
+            self.eventTrigger( task );
+            eventTask.Note( task );
+            eventChanged.Note( task );
+        }
+
+        methodCallback.call( self, opt, success, note );
+
+        eventTask.Talk();
+        eventChanged.Talk();
+    }
+
+    /**
+     * [utilTask description]
+     * @param  {external.Function} methodCallback [description]
+     * @param  {external.String} methodType     [description]
+     * @param  {external.Array} methodSchema   [description]
+     * @return {this}                [description]
+     */
+    function utilTask( methodCallback, methodType, methodSchema ) {
+        function tackTask( opt, success ) {
+            var async;
+
+            success = success || noop;
+            
+            if ( opt.async ) {
+                async = opt.async;
+                delete opt.async;
+            }
+
+            if ( async ) {
+                nextTick( nextTickTask, methodCallback, this, opt, success, methodType );
+            }
+            else {
+                nextTickTask( methodCallback, this, opt, success, methodType );
+            }
+
+            return this;
+        }
+
+        return Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
+    }
+
+    $$.utilTask = utilTask;
 
 })(Crisp);

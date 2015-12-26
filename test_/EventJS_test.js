@@ -2,6 +2,19 @@
 // [doc of EventJS](http://opencrisp.wca.at/docs/module-EventJS.html)<br />
 // [doc of defineEvent](http://opencrisp.wca.at/docs/module-BaseJS.html#defineEvent)
 
+exports['defineEvent'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = {};
+
+    Crisp.defineEvent( myObject );
+    assert.ok( Crisp.hasOwnEvent( myObject ) );
+
+    done();
+};
+
+
 // ## eventListener
 // [doc of eventListener](http://opencrisp.wca.at/docs/module-EventJS.html#eventListener)
 exports['eventListener'] = function(assert) {

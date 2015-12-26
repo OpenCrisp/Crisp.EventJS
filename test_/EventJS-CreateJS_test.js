@@ -150,3 +150,200 @@ exports['eventRemove'] = function(assert) {
 
     done();
 };
+
+
+exports['utilPick each'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+
+    var list = [];
+
+    function itemEach( opt, success ) {
+        success.call( this, 'each' );
+    }
+    
+    var myObject = Crisp.utilCreate({
+        prototypes: {
+            itemEach: Crisp.utilPick( itemEach )
+        }
+    }).objIni();
+
+    myObject.itemEach(
+        {},
+        function (doc) {
+            assert.equal( doc, 'each' );
+            list.push(doc);
+        },
+        function () {
+            list.push('end');
+            assert.equal( list.join(','), 'each,end' );
+        }
+    );
+
+    done();
+};
+
+exports['utilPick limit'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+
+    var list = [];
+
+    function itemEach( optEach, successEach ) {
+        successEach.call( this, 'each' );
+        successEach.call( this, 'each' );
+    }
+    
+    function itemLimit( optLimit, successLimit ) {
+        var x = [];
+
+        this.itemEach(
+            optLimit,
+            function (doc) {
+                x.push(doc);
+            },
+            function () {
+                successLimit.call( this, x.join(':') );
+            }
+        );
+    }
+    
+    var myObject = Crisp.utilCreate({
+        prototypes: {
+            itemEach: Crisp.utilPick( itemEach ),
+            itemLimit: Crisp.utilPick( itemLimit )
+        }
+    }).objIni();
+
+    myObject.itemLimit(
+        {},
+        function (doc) {
+            assert.equal( doc, 'each:each' );
+            list.push(doc);
+        },
+        function () {
+            list.push('end');
+            assert.equal( list.join(','), 'each:each,end' );
+        }
+    );
+
+    done();
+};
+
+exports['utilPick limit parallel'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+
+    var list = [];
+    var count = 0;
+
+    function itemEach( optEach, successEach, pickerEach ) {
+        pickerEach.Wait();
+        Crisp.nextTick(function() {
+            successEach.call( this, 'each0' );
+            pickerEach.Talk();
+        });
+
+        pickerEach.Wait();
+        Crisp.nextTick(function() {
+            successEach.call( this, 'each1' );
+            pickerEach.Talk();
+        });
+    }
+    
+    function itemLimit( optLimit, successLimit, pickerLimit ) {
+        var x = [];
+
+        pickerLimit.Wait();
+        this.itemEach(
+            optLimit,
+            function (doc) {
+                x.push(doc);
+            },
+            function () {
+                successLimit.call( this, x.join(':') );
+                pickerLimit.Talk();
+            }
+        );
+    }
+    
+    var myObject = Crisp.utilCreate({
+        prototypes: {
+            itemEach: Crisp.utilPick( itemEach ),
+            itemLimit: Crisp.utilPick( itemLimit )
+        }
+    }).objIni();
+
+    myObject.itemLimit(
+        {
+            async: true
+        },
+        function (doc) {
+            assert.equal( ++count, 2 );
+            assert.equal( doc, 'each0:each1' );
+            list.push(doc);
+        },
+        function () {
+            assert.equal( ++count, 3 );
+            list.push('end');
+            assert.equal( list.join(','), 'each0:each1,end' );
+            done();
+        }
+    );
+
+    assert.equal( ++count, 1 );
+};
+
+
+exports['utilPick limit parallel inherit'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(7);
+
+    var list = [];
+    var count = 0;
+
+    function itemEach( optEach, successEach, pickerEach ) {
+        pickerEach.Wait();
+        Crisp.nextTick(function() {
+            successEach.call( this, 'each' + optEach.start );
+            pickerEach.Talk();
+        });
+
+        pickerEach.Wait();
+        Crisp.nextTick(function() {
+            successEach.call( this, 'each' + optEach.start );
+            pickerEach.Talk();
+        });
+    }
+    
+    function itemLimit( optLimit ) {
+        optLimit.start = 0;
+        this.itemEach.callback.apply( this, arguments );
+    }
+    
+    var myObject = Crisp.utilCreate({
+        prototypes: {
+            itemEach: Crisp.utilPick( itemEach ),
+            itemLimit: Crisp.utilPick( itemLimit )
+        }
+    }).objIni();
+
+    myObject.itemLimit(
+        {
+            async: true
+        },
+        function (doc) {
+            assert.ok( ++count === 2 || count === 3 );
+            assert.equal( doc, 'each0' );
+            list.push(doc);
+        },
+        function () {
+            assert.equal( ++count, 4 );
+            list.push('end');
+            assert.equal( list.join(','), 'each0,each0,end' );
+            done();
+        }
+    );
+
+    assert.equal( ++count, 1 );
+};
