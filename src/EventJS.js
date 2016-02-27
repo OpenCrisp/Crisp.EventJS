@@ -1174,7 +1174,10 @@
             return this;
         }
 
-        return Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
+        Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
+        Object.defineProperty( tackTask, 'callback', { value: methodCallback });
+        
+        return;
     }
 
     $$.utilTask = utilTask;

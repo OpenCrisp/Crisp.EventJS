@@ -1,4 +1,4 @@
-/*! OpenCrisp EventJS - v0.4.2 - 2016-02-22
+/*! OpenCrisp EventJS - v0.4.3 - 2016-02-28
 * https://github.com/OpenCrisp/Crisp.EventJS
 * Copyright (c) 2016 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -1153,7 +1153,10 @@
             return this;
         }
 
-        return Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
+        Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
+        Object.defineProperty( tackTask, 'callback', { value: methodCallback });
+        
+        return;
     }
 
     $$.utilTask = utilTask;
