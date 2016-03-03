@@ -41,9 +41,9 @@
     var utilTick        = $$.utilTick;
     var stringToRegExp  = RegExp.escape;
     var type            = $$.type;
+    var End             = $$.ns('util.control.End');
+    var Noop            = $$.ns('util.control.Noop');
 
-    function noop() {}
-    
 
     /**
      * return "own";
@@ -1081,7 +1081,7 @@
             var event = {};
             var picker;
 
-            success = success || noop;
+            success = success || Noop;
             
             $$.defineEvent( event );
 
@@ -1135,6 +1135,12 @@
         });
 
         function note( task ) {
+            if (task instanceof End) {
+                eventTask.End();
+                eventChanged.End();
+                throw task;
+            }
+
             self.eventTrigger( task );
             eventTask.Note( task );
             eventChanged.Note( task );
@@ -1157,7 +1163,7 @@
         function tackTask( opt, success ) {
             var async;
 
-            success = success || noop;
+            success = success || Noop;
             
             if ( opt.async ) {
                 async = opt.async;
@@ -1176,8 +1182,8 @@
 
         Object.defineProperty( tackTask, 'task', { value: methodSchema || true });
         Object.defineProperty( tackTask, 'callback', { value: methodCallback });
-        
-        return;
+
+        return tackTask;
     }
 
     $$.utilTask = utilTask;
