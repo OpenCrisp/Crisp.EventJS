@@ -41,7 +41,7 @@
     var utilTick        = $$.utilTick;
     var stringToRegExp  = RegExp.escape;
     var type            = $$.type;
-    var End             = $$.ns('util.control.End');
+    var Break           = $$.ns('util.control.Break');
     var Noop            = $$.ns('util.control.Noop');
 
 
@@ -549,6 +549,29 @@
     };
 
 
+    function defaultOption( opt ) {
+        opt = opt || {};
+        opt.event = opt.event || defaultOptionEvent;
+        opt.parent = opt.parent || defaultOptionParent;
+        return opt;
+    }
+
+
+    /**
+     * The hasOwnEvent() method returns a boolean indicating whether the moduleObject has specified the Event module 
+     * @param  {external:Object} moduleObject any Object for initiate EventJS methods
+     * @param  {external:Object} [moduleOption]
+     * @param  {external:String} [moduleOption.event=__event__] name of event cache property
+     * @param  {external:String} [moduleOption.parent=__parent__] name of parent reference property
+     * @return {Boolean}              [description]
+     */
+    function hasOwnEvent( moduleObject, moduleOption ) {
+        moduleOption = defaultOption( moduleOption );
+        return moduleObject.hasOwnProperty( moduleOption.event ) && ( moduleObject[ moduleOption.event ] instanceof Event );
+    }
+
+    $$.hasOwnEvent = hasOwnEvent;
+
 
     /**
      * @private
@@ -651,6 +674,30 @@
      */
     function eventRemove( eventObject, propertyEvent ) {
         propertyEvent.remove( eventObject );
+        return this;
+    }
+
+
+
+    function eventResettle( parentObject, propertyEvent ) {
+        var parentListener, item;
+
+        if ( !parentObject || !hasOwnEvent(parentObject) ) {
+            return this;
+        }
+
+        parentListener = parentObject._('event')._listener;
+        
+        for (var i=0, m=parentListener.length; i<m; i+=1) {
+            item = parentListener[i];
+
+            if (item._self === parentObject) {
+                item._self = this;
+            }
+
+            propertyEvent._listener.push(item);
+        }
+        
         return this;
     }
 
@@ -800,17 +847,14 @@
          */
         eventRemove: function( eventObject ) {
             return eventRemove.call( this, eventObject, this._( iniEvent ) );
+        },
+
+        eventResettle: function( parentObject ) {
+            return eventResettle.call( this, parentObject, this._( iniEvent ) );
         }
 
     };
 
-
-    function defaultOption( opt ) {
-        opt = opt || {};
-        opt.event = opt.event || defaultOptionEvent;
-        opt.parent = opt.parent || defaultOptionParent;
-        return opt;
-    }
 
     /**
      * Create mothods from EventJS on any Object
@@ -1044,6 +1088,13 @@
                 value: function ( eventObject ) {
                     return eventRemove.call( this, eventObject, this[ moduleOption.event ] );
                 }
+            },
+
+
+            eventResettle: {
+                value: function ( parentObject ) {
+                    return eventResettle.call( this, parentObject, this[ moduleOption.event ] );
+                }
             }
 
         });
@@ -1053,21 +1104,6 @@
 
     $$.defineEvent = defineEvent;
 
-
-    /**
-     * The hasOwnEvent() method returns a boolean indicating whether the moduleObject has specified the Event module 
-     * @param  {external:Object} moduleObject any Object for initiate EventJS methods
-     * @param  {external:Object} [moduleOption]
-     * @param  {external:String} [moduleOption.event=__event__] name of event cache property
-     * @param  {external:String} [moduleOption.parent=__parent__] name of parent reference property
-     * @return {Boolean}              [description]
-     */
-    function hasOwnEvent( moduleObject, moduleOption ) {
-        moduleOption = defaultOption( moduleOption );
-        return moduleObject.hasOwnProperty( moduleOption.event ) && ( moduleObject[ moduleOption.event ] instanceof Event );
-    }
-
-    $$.hasOwnEvent = hasOwnEvent;
 
 
 
@@ -1135,7 +1171,7 @@
         });
 
         function note( task ) {
-            if (task instanceof End) {
+            if (task instanceof Break) {
                 eventTask.End();
                 eventChanged.End();
                 throw task;
