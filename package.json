@@ -2,7 +2,7 @@
 	"name": "crisp-event",
 	"title": "OpenCrisp EventJS",
 	"description": "Object event with repeater, picker and optional asynchronous.",
-	"version": "0.5.1",
+	"version": "0.5.2",
     "main": "./dist/crisp-event.js",
 	"homepage": "https://github.com/OpenCrisp/Crisp.EventJS",
 	"author": {
@@ -35,16 +35,16 @@
 		"crisp-create": "latest"
 	},
 	"devDependencies": {
-		"grunt": "~1.0.1",
-		"grunt-contrib-clean": "~1.0.0",
-		"grunt-contrib-concat": "~1.0.0",
-		"grunt-contrib-jshint": "~1.0.0",
-		"grunt-contrib-nodeunit": "~1.0.0",
-		"grunt-contrib-qunit": "~1.2.0",
-		"grunt-contrib-uglify": "~2.0.0",
-		"grunt-contrib-watch": "~1.0.0",
-		"grunt-createunit": "~1.0.4",
-		"grunt-jsdoc": "~2.1.0"
+        "grunt": "~1.0.1",
+        "grunt-contrib-clean": "~1.1.0",
+        "grunt-contrib-concat": "~1.0.1",
+        "grunt-contrib-jshint": "~1.1.0",
+        "grunt-contrib-nodeunit": "~1.0.0",
+        "grunt-contrib-qunit": "~2.0.0",
+        "grunt-contrib-uglify": "~3.0.1",
+        "grunt-contrib-watch": "~1.0.0",
+        "grunt-createunit": "~1.0.5",
+        "grunt-jsdoc": "~2.1.0"
 	},
 	"keywords": ["OpenCrisp", "async", "eventPicker", "defineEvent"]
 }
